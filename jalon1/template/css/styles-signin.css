@@ -77,7 +77,7 @@ html,body {
     left: 0;
     z-index: 0;
     border-radius: 15px;
-    background: -webkit-linear-gradient(left, #bc3535, #df4444, #df6464, #e98d71); /* Light-red/orange gradient */
+    background: #ff8a4c;
     transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
 }
 
@@ -187,7 +187,7 @@ form .btn .btn-layer {
     width: 300%;
     position: absolute;
     left: -100%;
-    background: -webkit-linear-gradient(right, #e42121, #e24141, #e15454, #e26f6f); /* Light-red/orange gradient */
+    background: #ff8a4c;
     border-radius: 15px;
     transition: all 0.4s ease;
 }
