@@ -19,12 +19,12 @@ class User extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_User',
-        'Username',
-        'Email',
-        'Country',
-        'Is_Admin',
-        'Is_Bloque',
+        'id_user',
+        'username',
+        'email',
+        'country',
+        'is_admin',
+        'is_banned',
     ];
 
     /**
@@ -33,7 +33,7 @@ class User extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'Password',
+        'password',
     ];
 
     /**
@@ -42,7 +42,7 @@ class User extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'Is_Admin' => 'boolean',
-        'Is_Bloque' => 'boolean',
+        'is_admin' => 'boolean',
+        'is_banned' => 'boolean',
     ];
 }

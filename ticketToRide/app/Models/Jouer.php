@@ -19,10 +19,10 @@ class Jouer extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_Lobby',
-        'ID_User',
-        'Classement',
-        'Score',
+        'id_lobby',
+        'id_user',
+        'classement',
+        'score',
     ];
 
     /**

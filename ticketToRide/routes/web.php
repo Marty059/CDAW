@@ -21,3 +21,7 @@ Route::get('/', function(){
 
 
 Route::get('liste-parties/{j1?}/{j2?}', [listePartiesController::class, 'index']);
+
+Route::view('test1','test')->name('test1');
+Route::view('test2','test2')->name('test2');
+//lien, nom de la vue, nom de la route

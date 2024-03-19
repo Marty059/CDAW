@@ -11,7 +11,7 @@ class Wagon extends Model
      *
      * @var string
      */
-    protected $table = 'wagons';
+    protected $table = 'wagon';
 
     /**
      * Les attributs qui sont mass assignable.
@@ -19,9 +19,9 @@ class Wagon extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_Wagon',
-        'Colour',
-        'Quantity',
+        'id_wagon',
+        'colour',
+        'quantity',
     ];
 
     /**
