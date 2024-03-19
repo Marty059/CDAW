@@ -17,6 +17,10 @@ class CreatePartieTable extends Migration
             $table->id();
             $table->string('nom');
             $table->timestamps();
+            //$table->integer('tokenable_id')->autoIncrement();
+            //$table->integer('id_createur');
+            //$table->foreign('id_createur')->references('id_user')->on('user');
+            //
         });
     }
 
