@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Game extends Model
+class Jouer extends Model
 {
     /**
      * Le nom de la table associée au modèle.
      *
      * @var string
      */
-    protected $table = 'games';
+    protected $table = 'jouer';
 
     /**
      * Les attributs qui sont mass assignable.
@@ -19,10 +19,10 @@ class Game extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_GAME',
-        'DURATION',
-        'NB_PLAYERS',
-        'CREATION_DATE',
+        'ID_Lobby',
+        'ID_User',
+        'Classement',
+        'Score',
     ];
 
     /**
@@ -37,7 +37,5 @@ class Game extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'CREATION_DATE' => 'datetime',
-    ];
+    protected $casts = [];
 }

@@ -19,9 +19,9 @@ class Wagon extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_WAGON',
-        'COLOR',
-        'QUANTITY',
+        'ID_Wagon',
+        'Colour',
+        'Quantity',
     ];
 
     /**

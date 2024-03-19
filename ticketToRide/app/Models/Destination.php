@@ -19,10 +19,10 @@ class Destination extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_DESTINATION',
-        'CITY_1',
-        'CITY_2',
-        'POINTS',
+        'ID_Destination',
+        'City_1',
+        'City_2',
+        'Points',
     ];
 
     /**
@@ -37,7 +37,5 @@ class Destination extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'POINTS' => 'integer',
-    ];
+    protected $casts = [];
 }

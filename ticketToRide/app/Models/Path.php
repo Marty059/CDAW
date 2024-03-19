@@ -19,12 +19,12 @@ class Path extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_PATH',
-        'CITY_1',
-        'CITY_2',
-        'LENGTH',
-        'COLOR_1',
-        'COLOR_2',
+        'ID_Path',
+        'City_1',
+        'City_2',
+        'Length',
+        'Colour_1',
+        'Colour_2',
     ];
 
     /**
