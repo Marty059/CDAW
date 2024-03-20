@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\listePartiesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function(){
-     return view('hello', ['message' => 'Bonjour']);
+     return view('welcome');
  });
 
+ Route::get('post', [PostController::class, 'index']);
 
+ Route::get('post2', [PostController::class, 'index_2']);
 
+Auth::routes();
 
-Route::get('liste-parties/{j1?}/{j2?}', [listePartiesController::class, 'index']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -19,11 +19,15 @@ class Lobby extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_LOBBY',
-        'MAX_PLAYERS',
-        'IS_PRIVATE',
-        'HAS_STARTED',
-        'CREATION_DATE',
+        'id_lobby',
+        'max_players',
+        'is_private',
+        'has_started',
+        'has_ended',
+        'creation_date',
+        'start_date',
+        'duration',
+        'id_createur',
     ];
 
     /**
@@ -39,8 +43,11 @@ class Lobby extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'IS_PRIVATE' => 'boolean',
-        'HAS_STARTED' => 'boolean',
-        'CREATION_DATE' => 'datetime',
+        'is_private' => 'boolean',
+        'has_started' => 'boolean',
+        'has_ended' => 'boolean',
+        'creation_date' => 'datetime',
+        'start_date' => 'datetime',
+        'duration' => 'double',
     ];
 }
