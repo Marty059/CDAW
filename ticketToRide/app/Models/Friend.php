@@ -11,7 +11,7 @@ class Friend extends Model
      *
      * @var string
      */
-    protected $table = 'friends';
+    protected $table = 'friend';
 
     /**
      * Les attributs qui sont mass assignable.
@@ -19,8 +19,8 @@ class Friend extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_USER_1',
-        'ID_USER_2',
+        'id_user_1',
+        'id_user_2',
     ];
 
     /**

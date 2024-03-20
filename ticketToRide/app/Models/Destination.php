@@ -11,7 +11,7 @@ class Destination extends Model
      *
      * @var string
      */
-    protected $table = 'destinations';
+    protected $table = 'destination';
 
     /**
      * Les attributs qui sont mass assignable.
@@ -19,10 +19,10 @@ class Destination extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_DESTINATION',
-        'CITY_1',
-        'CITY_2',
-        'POINTS',
+        'id_destination',
+        'city_1',
+        'city_2',
+        'points',
     ];
 
     /**
@@ -37,7 +37,5 @@ class Destination extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'POINTS' => 'integer',
-    ];
+    protected $casts = [];
 }

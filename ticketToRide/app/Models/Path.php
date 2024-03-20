@@ -11,7 +11,7 @@ class Path extends Model
      *
      * @var string
      */
-    protected $table = 'paths';
+    protected $table = 'path';
 
     /**
      * Les attributs qui sont mass assignable.
@@ -19,12 +19,12 @@ class Path extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ID_PATH',
-        'CITY_1',
-        'CITY_2',
-        'LENGTH',
-        'COLOR_1',
-        'COLOR_2',
+        'id_path',
+        'city_1',
+        'city_2',
+        'length',
+        'colour_1',
+        'colour_2',
     ];
 
     /**
