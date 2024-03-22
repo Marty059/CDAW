@@ -40,4 +40,12 @@ class Jouer extends Model
      * @var array<string, string>
      */
     protected $casts = [];
+
+      /**
+     * Relation avec la table Lobby.
+     */
+    public function lobby()
+    {
+        return $this->belongsTo(Lobby::class, 'id_lobby');
+    }
 }

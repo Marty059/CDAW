@@ -7,6 +7,11 @@ use App\Models\User;
 
 class StatsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function showStats($userId)
     {
         $user = User::find($userId);

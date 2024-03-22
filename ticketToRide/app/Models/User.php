@@ -84,6 +84,9 @@ class User extends AuthenticatableUser implements Authenticatable
     public function partiesJouees()
     {
         return Jouer::where('id_user', $this->id_user)
+                    ->whereHas('lobby', function ($query) {
+                        $query->where('has_ended', true);
+                    })
                     ->count();
     }
 
