@@ -4,6 +4,7 @@ use App\Http\Controllers\listePartiesController;
 use App\Http\Controllers\LobbyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\StatsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +34,9 @@ Route::post('/lobby/{lobby_id}/notify', [LobbyController::class, 'notify']);
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+
+Route::get('/stats/{userId}', [StatsController::class, 'showStats'])->name('stats');
+

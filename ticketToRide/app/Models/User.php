@@ -51,4 +51,50 @@ class User extends AuthenticatableUser implements Authenticatable
         'is_admin' => 'boolean',
         'is_banned' => 'boolean',
     ];
+
+    /**
+     * Retourne le nombre de parties gagnées par l'utilisateur.
+     *
+     * @return int
+     */
+    public function partiesGagnees()
+    {
+        return Jouer::where('id_user', $this->id_user)
+                    ->where('classement', 1)
+                    ->count();
+    }
+
+    /**
+     * Retourne le nombre de parties perdues par l'utilisateur.
+     *
+     * @return int
+     */
+    public function partiesPerdues()
+    {
+        return Jouer::where('id_user', $this->id_user)
+                    ->where('classement', '>', 1)
+                    ->count();
+    }
+
+    /**
+     * Retourne le nombre total de parties jouées (terminées) par l'utilisateur.
+     *
+     * @return int
+     */
+    public function partiesJouees()
+    {
+        return Jouer::where('id_user', $this->id_user)
+                    ->count();
+    }
+
+    /**
+     * Retourne le meilleur score de l'utilisateur.
+     *
+     * @return int|null
+     */
+    public function meilleurScore()
+    {
+        return Jouer::where('id_user', $this->id_user)
+                    ->max('score');
+    }
 }
