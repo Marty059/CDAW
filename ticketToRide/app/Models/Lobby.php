@@ -12,6 +12,7 @@ class Lobby extends Model
      * @var string
      */
     protected $table = 'lobby';
+    protected $primaryKey = 'id_lobby';
 
     /**
      * Les attributs qui sont mass assignable.
