@@ -21,6 +21,7 @@ class User extends Model
     protected $fillable = [
         'id_user',
         'username',
+        'password',
         'email',
         'country',
         'is_admin',
