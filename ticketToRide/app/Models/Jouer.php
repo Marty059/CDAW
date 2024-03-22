@@ -25,6 +25,8 @@ class Jouer extends Model
         'score',
     ];
 
+    public $timestamps = false;
+
     /**
      * Les attributs qui doivent être cachés pour la sérialisation.
      *

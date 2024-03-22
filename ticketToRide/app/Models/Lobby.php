@@ -30,6 +30,8 @@ class Lobby extends Model
         'id_createur',
     ];
 
+    public $timestamps = false;
+
     /**
      * Les attributs qui doivent être cachés pour la sérialisation.
      *
