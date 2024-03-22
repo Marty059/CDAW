@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\listePartiesController;
+use App\Http\Controllers\LobbyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
@@ -23,5 +24,12 @@ Route::get('/', function(){
  Route::get('post2', [PostController::class, 'index_2']);
 
 Auth::routes();
+
+Route::get('/lobby', [LobbyController::class,'index']);
+
+
+Route::get('/lobby/{lobby_id}', [LobbyController::class, 'show'])->name('lobby');
+Route::post('/lobby/{lobby_id}/notify', [LobbyController::class, 'notify']);
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

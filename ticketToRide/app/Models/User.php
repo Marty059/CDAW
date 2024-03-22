@@ -2,16 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as AuthenticatableUser;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class User extends AuthenticatableUser implements Authenticatable
 {
+    use HasFactory;
     /**
      * Le nom de la table associée au modèle.
      *
      * @var string
      */
     protected $table = 'user';
+    protected $primaryKey = 'id_user';
 
     /**
      * Les attributs qui sont mass assignable.

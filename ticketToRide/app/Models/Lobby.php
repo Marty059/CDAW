@@ -11,7 +11,7 @@ class Lobby extends Model
      *
      * @var string
      */
-    protected $table = 'lobbies';
+    protected $table = 'lobby';
 
     /**
      * Les attributs qui sont mass assignable.
