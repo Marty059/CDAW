@@ -48,4 +48,6 @@ class Jouer extends Model
     {
         return $this->belongsTo(Lobby::class, 'id_lobby');
     }
+
+    
 }

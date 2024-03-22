@@ -100,4 +100,17 @@ class User extends AuthenticatableUser implements Authenticatable
         return Jouer::where('id_user', $this->id_user)
                     ->max('score');
     }
+
+    
+    /**
+     * Relation avec les parties jouées par l'utilisateur.
+     */
+    public function historiquePartiesJouees()
+    {
+        return $this->hasMany(Jouer::class, 'id_user')
+        ->whereHas('lobby', function ($query) {
+            $query->where('has_ended', true);
+        });
+    }
+    
 }

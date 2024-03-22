@@ -11,7 +11,7 @@ class StatsController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function showStats($userId)
     {
         $user = User::find($userId);
@@ -19,7 +19,8 @@ class StatsController extends Controller
         $partiesPerdues = $user->partiesPerdues();
         $partiesJouees = $user->partiesJouees();
         $meilleurScore = $user->meilleurScore();
-
-        return view('stats', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore'));
+        $historique = User::with('historiquePartiesJouees')->find($userId);
+ 
+        return view('stats', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore','historique'));
     }
 }
