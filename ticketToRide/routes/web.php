@@ -26,10 +26,10 @@ Route::get('/', function(){
 
 Auth::routes();
 
-Route::get('/lobby', [LobbyController::class,'index']);
+Route::get('/lobby', [LobbyController::class,'index'])->name('lobby');
 
 
-Route::get('/lobby/{lobby_id}', [LobbyController::class, 'show'])->name('lobby');
+Route::get('/lobby/{lobby_id}', [LobbyController::class, 'show'])->name('show');
 Route::post('/lobby/{lobby_id}/notify', [LobbyController::class, 'notify']);
 
 

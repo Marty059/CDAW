@@ -22,7 +22,7 @@ class LobbyController extends Controller
     public function notify(int $lobby_id){
         $lobby = Lobby::find($lobby_id);
         broadcast(new LobbyJoinedEvent($lobby));
-        return redirect()->route('lobby', $lobby_id);
+        return redirect()->route('show', $lobby_id);
     }
 
     public function show($lobby_id)
