@@ -25,6 +25,7 @@ class Destination extends Model
         'points',
     ];
 
+    public $timestamps = false;
     /**
      * Les attributs qui doivent être cachés pour la sérialisation.
      *

@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         for ($i = 1; $i <= 10; $i++) {
             User::create([
                 'username' => 'user' . $i,
-                'password' => 'password', // Vous pouvez utiliser Hash::make pour hasher les mots de passe
+                'password' => Hash::make('password'),('password'), // Vous pouvez utiliser Hash::make pour hasher les mots de passe
                 'email' => 'user' . $i . '@example.com',
                 'country' => 'Country ' . $i,
                 'is_admin' => false, // Par défaut, les utilisateurs ne sont pas des administrateurs

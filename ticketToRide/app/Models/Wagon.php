@@ -24,6 +24,7 @@ class Wagon extends Model
         'quantity',
     ];
 
+    public $timestamps = false;
     /**
      * Les attributs qui doivent être cachés pour la sérialisation.
      *

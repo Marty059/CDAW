@@ -27,6 +27,7 @@ class Path extends Model
         'colour_2',
     ];
 
+    public $timestamps = false;
     /**
      * Les attributs qui doivent être cachés pour la sérialisation.
      *
