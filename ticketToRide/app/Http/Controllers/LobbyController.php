@@ -41,6 +41,23 @@ public function join($lobby_id)
 {
     // Récupérer le lobby en fonction de l'ID
     $lobby = Lobby::findOrFail($lobby_id);
+
+    if(auth()->user()->id_user == $lobby->id_createur){
+        return redirect()->route('show', $lobby_id)->with('error', 'You are the creator of this lobby');
+    }
+
+    $users= $lobby->getUsers();
+
+    if($users->contains(auth()->user())){
+        return redirect()->route('show', $lobby_id)->with('error', 'You are already in this lobby');
+    }
+
+    $count = count($users);
+
+    if ($count >= $lobby->max_players) {
+        return redirect()->route('show', $lobby_id)->with('error', 'Lobby is full');
+    }
+
     
     // Ajouter l'utilisateur authentifié au lobby
     Jouer::create([
