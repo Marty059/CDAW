@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if (session('error'))
+    <script>
+        alert('{{ session('error') }}');
+    </script>
+@endif
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -21,9 +28,27 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="card-footer text-center">
-                    <a class="btn btn-primary" href="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}">Join</a>
-                </div>
+                @php
+                $buttonShown = false;
+                @endphp
+
+                @foreach ($users as $user)
+                    @if ($user->id_user === auth()->user()->id_user)
+                        <div class="card-footer text-center">
+                            <a class="btn btn-primary" href="{{ route('lobby.leave', ['lobbyId' => $lobby->id_lobby]) }}">Leave</a>
+                        </div>
+                        @php
+                            $buttonShown = true;
+                        @endphp
+                        @break
+                    @endif
+                @endforeach
+
+                @if (!$buttonShown && count($users) < $lobby->max_players)
+                    <div class="card-footer text-center">
+                        <a class="btn btn-primary" href="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}">Join</a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

@@ -48,7 +48,7 @@ public function join($lobby_id)
 
     $users= $lobby->getUsers();
 
-    if($users->contains(auth()->user())){
+    if(in_array(auth()->user(), $users)){
         return redirect()->route('show', $lobby_id)->with('error', 'You are already in this lobby');
     }
 
@@ -67,6 +67,27 @@ public function join($lobby_id)
         'score' => 0
     ]);
     
+    // Rediriger vers la page du lobby
+    return redirect()->route('show', $lobby_id);
+}
+
+public function leave($lobby_id)
+{
+    $lobby = Lobby::findOrFail($lobby_id);
+
+    if (auth()->user()->id_user == $lobby->id_createur) {
+        $lobby->delete();
+        return redirect()->route('index')->with('success', 'Lobby deleted successfully');
+    }
+
+    $users = $lobby->getUsers();
+
+    if (!in_array(auth()->user(), $users)) {
+        return redirect()->route('show', $lobby_id)->with('error', 'You are not in this lobby');
+    }
+
+    Jouer::where('id_lobby', $lobby_id)->where('id_user', auth()->user()->id_user)->delete();
+
     // Rediriger vers la page du lobby
     return redirect()->route('show', $lobby_id);
 }
