@@ -27,18 +27,14 @@ class LobbyController extends Controller
 
     public function show($lobby_id)
 {
-    // Récupérer les données du lobby en fonction de l'ID
     $lobby = Lobby::findOrFail($lobby_id);
 
-    // Récupérer les utilisateurs associés au lobby
     $users = $lobby->getUsers();
 
-    // Retourner la vue avec les données du lobby et les utilisateurs
     return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
 }
 public function join($lobby_id)
 {
-    // Récupérer le lobby en fonction de l'ID
     $lobby = Lobby::findOrFail($lobby_id);
 
     if(auth()->user()->id_user == $lobby->id_createur){
