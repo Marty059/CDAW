@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\LobbyJoinedEvent;
+use App\Models\Jouer;
 use Illuminate\Http\Request;
 use App\Models\Lobby;
 
@@ -35,5 +36,21 @@ class LobbyController extends Controller
 
     // Retourner la vue avec les données du lobby et les utilisateurs
     return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
+}
+public function join($lobby_id)
+{
+    // Récupérer le lobby en fonction de l'ID
+    $lobby = Lobby::findOrFail($lobby_id);
+    
+    // Ajouter l'utilisateur authentifié au lobby
+    Jouer::create([
+        'id_lobby' => $lobby_id,
+        'id_user' => auth()->user()->id_user,
+        'classement' => 0,
+        'score' => 0
+    ]);
+    
+    // Rediriger vers la page du lobby
+    return redirect()->route('show', $lobby_id);
 }
 }
