@@ -34,11 +34,12 @@
                     <ul class="navbar-nav me-auto">
                         <!-- Lobby Link -->
                         @auth
-                            @if (Route::has('lobby'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('lobby') }}">Lobby</a>
                                 </li>
-                            @endif
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('profile',['userId' => Auth::user()->id_user]) }}">Profile</a>
+                                </li>
                         @endauth
                     </ul>
 
