@@ -38,5 +38,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-Route::get('/stats/{userId}', [StatsController::class, 'showStats'])->name('stats');
+Route::get('/profile/{userId}', [StatsController::class, 'showStats'])->name('stats');
 
