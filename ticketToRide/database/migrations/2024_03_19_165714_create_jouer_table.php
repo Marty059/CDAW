@@ -15,7 +15,7 @@ class CreateJouerTable extends Migration
     {
         Schema::create('jouer', function (Blueprint $table) {
             $table->integer('id_lobby');
-            $table->foreign('id_lobby')->references('id_lobby')->on('lobby');
+            $table->foreign('id_lobby')->references('id_lobby')->on('lobby')->onDelete('cascade');
             $table->integer('id_user');
             $table->foreign('id_user')->references('id_user')->on('user');
             $table->primary(['id_lobby', 'id_user']);

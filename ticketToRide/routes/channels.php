@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+
+Broadcast::channel('lobby.{lobbyId}', function ($user, $lobbyId) {
+    return App\Models\Lobby::find($lobbyId)->getUsers()->pluck('id_user')->contains($user->id_user);
+});

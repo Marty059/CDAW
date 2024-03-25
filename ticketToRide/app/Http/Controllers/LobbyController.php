@@ -23,7 +23,6 @@ class LobbyController extends Controller
     public function notify(int $lobby_id){
         $lobby = Lobby::find($lobby_id);
         broadcast(new LobbyJoinedEvent($lobby));
-        return redirect()->route('show', $lobby_id);
     }
 
     public function show($lobby_id)
@@ -45,30 +44,26 @@ public function join($lobby_id)
     if(auth()->user()->id_user == $lobby->id_createur){
         return redirect()->route('show', $lobby_id)->with('error', 'You are the creator of this lobby');
     }
-
-    $users= $lobby->getUsers();
-
-    if(in_array(auth()->user(), $users)){
-        return redirect()->route('show', $lobby_id)->with('error', 'You are already in this lobby');
-    }
-
-    $count = count($users);
-
-    if ($count >= $lobby->max_players) {
-        return redirect()->route('show', $lobby_id)->with('error', 'Lobby is full');
-    }
-
+    else{
+        $users = $lobby->getUsers();
+        if(in_array(auth()->user(), $users)){
+            return redirect()->route('show', $lobby_id)->with('error', 'You are already in this lobby');
+        }
     
-    // Ajouter l'utilisateur authentifié au lobby
-    Jouer::create([
-        'id_lobby' => $lobby_id,
-        'id_user' => auth()->user()->id_user,
-        'classement' => 0,
-        'score' => 0
-    ]);
-    
-    // Rediriger vers la page du lobby
-    return redirect()->route('show', $lobby_id);
+        else if (count($users) >= $lobby->max_players) {
+            return redirect()->route('show', $lobby_id)->with('error', 'Lobby is full');
+        }
+        else {
+            Jouer::create([
+                'id_lobby' => $lobby_id,
+                'id_user' => auth()->user()->id_user,
+                'classement' => 0,
+                'score' => 0
+            ]);
+            
+            return redirect()->route('show', $lobby_id);
+        }
+    }
 }
 
 public function leave($lobby_id)
@@ -77,18 +72,16 @@ public function leave($lobby_id)
 
     if (auth()->user()->id_user == $lobby->id_createur) {
         $lobby->delete();
-        return redirect()->route('index')->with('success', 'Lobby deleted successfully');
+        return redirect()->route('welcome')->with('success', 'Lobby deleted successfully');
     }
 
-    $users = $lobby->getUsers();
-
-    if (!in_array(auth()->user(), $users)) {
+    else if (!in_array(auth()->user(), $lobby->getUsers())) {
         return redirect()->route('show', $lobby_id)->with('error', 'You are not in this lobby');
     }
-
-    Jouer::where('id_lobby', $lobby_id)->where('id_user', auth()->user()->id_user)->delete();
-
-    // Rediriger vers la page du lobby
-    return redirect()->route('show', $lobby_id);
+    else {
+        Jouer::where('id_lobby', $lobby_id)->where('id_user', auth()->user()->id_user)->delete();
+        return redirect()->route('show', $lobby_id);
+    }
+    
 }
 }
