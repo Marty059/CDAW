@@ -17,7 +17,7 @@ class JouerSeeder extends Seeder
     public function run()
     {
         // Récupérer trois lobbys existants
-        $lobbies = Lobby::limit(3)->get();
+        $lobbies = Lobby::limit(10)->get();
 
         foreach ($lobbies as $lobby) {
             // Récupérer le créateur du lobby

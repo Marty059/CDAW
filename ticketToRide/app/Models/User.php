@@ -117,8 +117,7 @@ class User extends AuthenticatableUser implements Authenticatable
             $query->where('has_ended', true);
         });*/
         return Jouer::join('lobby', 'jouer.id_lobby', '=', 'lobby.id_lobby')
-                    ->join
-                    ->where('id_user', $this->id_user)
+                    ->where('jouer.id_user', $this->id_user)
                     ->where('lobby.has_ended', true)
                     ->get();
     }
