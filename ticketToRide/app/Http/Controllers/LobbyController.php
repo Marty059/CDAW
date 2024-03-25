@@ -26,11 +26,17 @@ class LobbyController extends Controller
     }
 
     public function show($lobby_id)
-    {
-        // Récupérer les données du lobby en fonction de l'ID
-        $lobby = Lobby::findOrFail($lobby_id);
+{
+    // Récupérer les données du lobby en fonction de l'ID
+    $lobby = Lobby::findOrFail($lobby_id);
 
-        // Retourner la vue avec les données du lobby
-        return view('lobby.show', ['lobby' => $lobby]);
-    }
+    // Récupérer les utilisateurs associés au lobby
+    $users = $lobby->getUsers();
+
+
+
+
+    // Retourner la vue avec les données du lobby et les utilisateurs
+    return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
+}
 }

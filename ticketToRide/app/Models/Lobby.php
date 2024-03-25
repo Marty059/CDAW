@@ -54,8 +54,15 @@ class Lobby extends Model
         'duration' => 'double',
     ];
 
-    public function getUsers(int $id_lobby){
-        return Jouer::where('id_lobby', $id_lobby)
-        ->pluck('id_user');
+    public function getUsers(){
+        $id_users = Jouer::where('id_lobby', $this->id_lobby)->pluck('id_user');
+        $users = [];
+        foreach($id_users as $id_user){
+            $user = Jouer::where('id_user', $id_user)->first();
+            if ($user) {
+                $users[$id_user] = $user;
+            }
+        }
+        return $users;
     }
 }

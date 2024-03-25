@@ -13,6 +13,14 @@
                     <p><strong>Creation Date:</strong> {{ $lobby->creation_date }}</p>
                     <p><strong>Creator ID:</strong> {{ $lobby->id_createur }}</p>
                 </div>
+                <div class="panel-body">
+                    <p><strong>Players:</strong></p>
+                    <ul>
+                        @foreach ($users as $user)
+                            <li>{{ $user->username;}}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
