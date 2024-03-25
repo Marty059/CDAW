@@ -22,6 +22,7 @@ class CreateUserTable extends Migration
             $table->string('country',50)->default(null);
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_banned')->default(false); 
+            $table->string('remember_token')->default('');
             $table->timestamps();
         });
     }

@@ -31,6 +31,7 @@ class User extends AuthenticatableUser implements Authenticatable
         'country',
         'is_admin',
         'is_banned',
+        'remember_token',
     ];
 
     /**
@@ -40,6 +41,7 @@ class User extends AuthenticatableUser implements Authenticatable
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**

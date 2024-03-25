@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
                 'country' => 'Country ' . $i,
                 'is_admin' => false, // Par défaut, les utilisateurs ne sont pas des administrateurs
                 'is_banned' => false, // Par défaut, les utilisateurs ne sont pas bannis
+                'remember_token' => '',
             ]);
         }
         //\App\Models\User::factory(10)->create();

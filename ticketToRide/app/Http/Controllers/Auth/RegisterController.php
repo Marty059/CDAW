@@ -39,6 +39,7 @@ class RegisterController extends Controller
             'country' => $data['country'], // Storing the value of the 'country' field
             'is_admin' => false,
             'is_banned' => false,
+            'remember_token' => '',
         ]);
     }
 }
