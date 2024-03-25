@@ -85,10 +85,13 @@ class User extends AuthenticatableUser implements Authenticatable
      */
     public function partiesJouees()
     {
-        return Jouer::where('id_user', $this->id_user)
-                    ->whereHas('lobby', function ($query) {
+        return Jouer::
+                    /*->whereHas('lobby', function ($query) {
                         $query->where('has_ended', true);
-                    })
+                    })*/
+                    join('lobby', 'jouer.id_lobby', '=', 'lobby.id_lobby')
+                    ->where('id_user', $this->id_user)
+                    ->where('lobby.has_ended', true)
                     ->count();
     }
 
@@ -109,10 +112,15 @@ class User extends AuthenticatableUser implements Authenticatable
      */
     public function historiquePartiesJouees()
     {
-        return $this->hasMany(Jouer::class, 'id_user')
+        /*return $this->hasMany(Jouer::class, 'id_user')
         ->whereHas('lobby', function ($query) {
             $query->where('has_ended', true);
-        });
+        });*/
+        return Jouer::join('lobby', 'jouer.id_lobby', '=', 'lobby.id_lobby')
+                    ->join
+                    ->where('id_user', $this->id_user)
+                    ->where('lobby.has_ended', true)
+                    ->get();
     }
 
     public function getUsername(int $id_user){

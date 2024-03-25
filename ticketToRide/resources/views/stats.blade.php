@@ -31,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($user->historiquePartiesJouees as $partie)
+                                @foreach ($historique as $partie)
                                 <tr>
                                     <td>{{ $partie->score }}</td>
                                     <td>{{ $partie->classement }}</td>

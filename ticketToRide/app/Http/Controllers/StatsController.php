@@ -20,11 +20,15 @@ class StatsController extends Controller
         $partiesPerdues = $user->partiesPerdues();
         $partiesJouees = $user->partiesJouees();
         $meilleurScore = $user->meilleurScore();
-        $historique = User::with('historiquePartiesJouees')->find($userId);
+        $historique = $user->historiquePartiesJouees();
+        dd($historique);
         $autresJoueurs = [];
-        foreach($historique->historiquePartiesJouees as $partie){
+        foreach($historique->historiquePartiesJouees() as $partie){
             $autresJoueurs[] = $partie->lobby->getUsers();
         }
+        return view('stats', ['user' => $user, 
+                            'partiesGagnees' => $user->partiesGagnees(),
+                             'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs']);
  
         return view('stats', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs'));
     }
