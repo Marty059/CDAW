@@ -40,3 +40,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/profile/{userId}', [StatsController::class, 'showStats'])->name('profile');
 
+Route::get('/lobby/create', 'LobbyController@create')->name('lobby.create');
+
+Route::get('/lobby/join/{lobbyId}', 'LobbyController@join')->name('lobby.join');
+
+
+

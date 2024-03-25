@@ -21,6 +21,7 @@
                         @endforeach
                     </ul>
                 </div>
+                <button><a href="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}">Join</a></button>
             </div>
         </div>
     </div>
