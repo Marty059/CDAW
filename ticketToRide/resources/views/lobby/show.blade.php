@@ -2,11 +2,7 @@
 
 @section('content')
 
-@if (session('error'))
-    <script>
-        alert('{{ session('error') }}');
-    </script>
-@endif
+
 
 <div class="container">
     <div class="row justify-content-center">

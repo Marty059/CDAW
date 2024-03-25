@@ -18,6 +18,11 @@
 
 </head>
 <body>
+@if (session('error'))
+    <script>
+        alert('{{ session('error') }}');
+    </script>
+@endif
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
