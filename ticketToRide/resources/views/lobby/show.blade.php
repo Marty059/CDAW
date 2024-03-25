@@ -9,12 +9,8 @@
                 <div class="panel-body">
                     <p><strong>ID:</strong> {{ $lobby->id_lobby }}</p>
                     <p><strong>Max Players:</strong> {{ $lobby->max_players }}</p>
-                    <p><strong>Is Private:</strong> {{ $lobby->is_private ? 'Yes' : 'No' }}</p>
-                    <p><strong>Has Started:</strong> {{ $lobby->has_started ? 'Yes' : 'No' }}</p>
-                    <p><strong>Has Ended:</strong> {{ $lobby->has_ended ? 'Yes' : 'No' }}</p>
+                    <p><strong>Private:</strong> {{ $lobby->is_private ? 'Yes' : 'No' }}</p>
                     <p><strong>Creation Date:</strong> {{ $lobby->creation_date }}</p>
-                    <p><strong>Start Date:</strong> {{ $lobby->start_date }}</p>
-                    <p><strong>Duration:</strong> {{ $lobby->duration }}</p>
                     <p><strong>Creator ID:</strong> {{ $lobby->id_createur }}</p>
                 </div>
             </div>

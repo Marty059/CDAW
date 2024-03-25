@@ -53,4 +53,9 @@ class Lobby extends Model
         'start_date' => 'datetime',
         'duration' => 'double',
     ];
+
+    public function getUsers(int $id_lobby){
+        return Jouer::where('id_lobby', $id_lobby)
+        ->pluck('id_user');
+    }
 }

@@ -25,7 +25,7 @@ class LobbySeeder extends Seeder
             $lobby->max_players = rand(2, 5); // Générer un nombre aléatoire entre 2 et 5 pour max_players
             $lobby->is_private = false; // Par défaut, le lobby n'est pas privé
             $lobby->has_started = false; // Par défaut, le lobby n'a pas encore démarré
-            $lobby->has_ended = false; // Par défaut, le lobby n'est pas encore terminé
+            $lobby->has_ended = true; // Par défaut, le lobby n'est pas encore terminé
             $lobby->creation_date = Carbon::now(); // Date de création du lobby
             $lobby->id_createur = $user->id_user; // L'utilisateur actuel est le créateur du lobby
 

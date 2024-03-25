@@ -112,5 +112,15 @@ class User extends AuthenticatableUser implements Authenticatable
             $query->where('has_ended', true);
         });
     }
+
+    public function getUsername(int $id_user){
+        $user = Jouer::where('id_user', $id_user)->first();
+        if ($user) {
+            return $user->username;
+        } else {
+            return null; // or handle the case when user with specified id is not found
+        }
+    }
+    
     
 }
