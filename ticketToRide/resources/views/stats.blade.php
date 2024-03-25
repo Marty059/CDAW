@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('styles')
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -23,6 +26,7 @@
                                     <th>Classement</th>
                                     <th>Date de création</th>
                                     <th>Durée de la partie</th>
+                                    <th>Autres joueurs</th>
                                     <!-- Ajoutez d'autres en-têtes de colonnes au besoin -->
                                 </tr>
                             </thead>
@@ -33,6 +37,13 @@
                                     <td>{{ $partie->classement }}</td>
                                     <td>{{ $partie->lobby->creation_date }}</td>
                                     <td>{{ $partie->lobby->duration }} minutes</td>
+                                    <td>
+                                        @foreach ($autresJoueurs[$loop->index] as $joueur)
+                                        @if ($joueur->id_user!=$user->id_user) {{ $joueur->username }} 
+                                        @if (!$loop->last), @endif
+                                        @endif
+                                        @endforeach
+                                    </td>
                                     <!-- Ajoutez d'autres colonnes avec les informations supplémentaires ici -->
                                 </tr>
                                 @endforeach
@@ -44,5 +55,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
 @endsection
 

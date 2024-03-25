@@ -9,13 +9,12 @@
 
     <title>{{ config('app.name', 'Ticket to ride') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @yield('styles')
 
 </head>
 <body>
@@ -87,8 +86,12 @@
         </main>
     </div>
     
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="http://localhost:6001/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    @yield('scripts')
 </body>
 </html>
+

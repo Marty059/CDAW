@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Models\Lobby;
+use App\Models\Jouer;
 class StatsController extends Controller
 {
     public function __construct()
@@ -20,7 +21,11 @@ class StatsController extends Controller
         $partiesJouees = $user->partiesJouees();
         $meilleurScore = $user->meilleurScore();
         $historique = User::with('historiquePartiesJouees')->find($userId);
+        $autresJoueurs = [];
+        foreach($historique->historiquePartiesJouees as $partie){
+            $autresJoueurs[] = $partie->lobby->getUsers();
+        }
  
-        return view('stats', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore','historique'));
+        return view('stats', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs'));
     }
 }
