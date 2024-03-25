@@ -33,9 +33,6 @@ class LobbyController extends Controller
     // Récupérer les utilisateurs associés au lobby
     $users = $lobby->getUsers();
 
-
-
-
     // Retourner la vue avec les données du lobby et les utilisateurs
     return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
 }

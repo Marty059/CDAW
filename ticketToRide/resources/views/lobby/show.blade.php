@@ -17,7 +17,7 @@
                     <p><strong>Players:</strong></p>
                     <ul>
                         @foreach ($users as $user)
-                            <li>{{ $user->username;}}</li>
+                            <li ><a href="{{route('profile', ['userId' => $user->id_user])}}">{{ $user->username}}</a></li>
                         @endforeach
                     </ul>
                 </div>
