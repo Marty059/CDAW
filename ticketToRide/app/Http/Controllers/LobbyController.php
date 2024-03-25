@@ -35,6 +35,7 @@ class LobbyController extends Controller
 }
 public function join($lobby_id)
 {
+    // Récupérer le lobby en fonction de l'ID
     $lobby = Lobby::findOrFail($lobby_id);
 
     if(auth()->user()->id_user == $lobby->id_createur){
@@ -42,7 +43,7 @@ public function join($lobby_id)
     }
     else{
         $users = $lobby->getUsers();
-        if(in_array(auth()->user(), $users)){
+        if($users->pluck('id_user')->contains(auth()->user()->id_user)){
             return redirect()->route('show', $lobby_id)->with('error', 'You are already in this lobby');
         }
     
@@ -71,7 +72,7 @@ public function leave($lobby_id)
         return redirect()->route('welcome')->with('success', 'Lobby deleted successfully');
     }
 
-    else if (!in_array(auth()->user(), $lobby->getUsers())) {
+    else if (!($lobby->getUsers()->pluck('id_user')->contains(auth()->user()->id_user))) {
         return redirect()->route('show', $lobby_id)->with('error', 'You are not in this lobby');
     }
     else {
