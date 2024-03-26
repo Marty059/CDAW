@@ -81,4 +81,25 @@ public function leave($lobby_id)
     }
     
 }
+public function kick($lobby_id, $user_id)
+{
+    $lobby = Lobby::findOrFail($lobby_id);
+
+    if (auth()->user()->id_user != $lobby->id_createur) {
+        return redirect()->route('show', $lobby_id)->with('error', 'Only the creator can kick users');
+    }
+    if (auth()->user()->id_user == $lobby->id_createur && $user_id == $lobby->id_createur) {
+        return redirect()->route('show', $lobby_id)->with('error', 'Only the creator can kick users');
+    }
+
+    $user = Jouer::where('id_lobby', $lobby_id)->where('id_user', $user_id)->first();
+    
+
+    if (!$user) {
+        return redirect()->route('show', $lobby_id)->with('error', 'User not found in this lobby');
+    }
+    $user->delete();
+
+    return redirect()->route('show', $lobby_id)->with('success', 'User kicked successfully');
+}
 }

@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -20,7 +18,15 @@
                     <p><strong>Players:</strong></p>
                     <ul class="list-group">
                         @foreach ($users as $user)
-                            <li class="list-group-item"><a href="{{ route('profile', ['userId' => $user->id_user]) }}">{{ $user->username }}</a></li>
+                            <li class="list-group-item">
+                                <a href="{{ route('profile', ['userId' => $user->id_user]) }}">{{ $user->username }}</a>
+                                @if ($lobby->id_createur === auth()->user()->id_user)
+                                    <form action="{{ route('lobby.kick', ['lobby_id' => $lobby->id_lobby, 'player_id' => $user->id_user]) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Kick</button>
+                                    </form>
+                                @endif
+                            </li>
                         @endforeach
                     </ul>
                 </div>

@@ -12,6 +12,12 @@ class Jouer extends Model
      * @var string
      */
     protected $table = 'jouer';
+    public $incrementing = false;
+
+    protected function setKeysForSaveQuery($query)
+    {
+        return $query->where('id_lobby', $this->id_lobby)->where('id_user', $this->id_user);
+    }
 
     /**
      * Les attributs qui sont mass assignable.
