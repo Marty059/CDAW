@@ -71,19 +71,20 @@ class Lobby extends Model
             ->get();
     }
 
-    public function getUsersToString(){
+    public function getUsersToString($id_user){
         $users = Jouer::join('user', 'jouer.id_user', '=', 'user.id_user')
             ->where('id_lobby', $this->id_lobby)
             ->get();
         
         $usersString = '';
-        foreach($users as $user){
-            $usersString .= $user->username . ', ';
+        foreach($users as $index => $user){
+            if ($user->id_user != $id_user) {
+                $usersString .= $user->username;
+                if ($index < count($users) - 1) {
+                    $usersString .= ', ';
+                }
+            }
         }
-
-        // foreach($users as $user){
-        //     $usersString
-        // }
         return $usersString;
 
     }
