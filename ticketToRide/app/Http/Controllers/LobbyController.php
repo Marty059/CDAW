@@ -34,7 +34,7 @@ class LobbyController extends Controller
     return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
 }
 
-public function create()
+    public function create()
 {
     return view('lobby.create');
 }
