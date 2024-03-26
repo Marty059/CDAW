@@ -5,6 +5,7 @@ use App\Http\Controllers\LobbyController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\GameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +52,6 @@ Route::get('lobby/leave/{lobbyId}', [LobbyController::class, 'leave'])->name('lo
 //test
 Route::post('/getHistorique/{userId}', [StatsController::class, 'getHistorique'])->name('getHistorique');
 Route::get('/test/{userId}', [StatsController::class, 'showStats'])->name('profile');
+
+
+Route::get('/game/{lobbyId}', [GameController::class,'show'])->name('game.show');

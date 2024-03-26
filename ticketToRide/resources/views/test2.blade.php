@@ -28,6 +28,7 @@
                                     <th>Date de création</th>
                                     <th>Durée de la partie</th>
                                     <th>Autres joueurs</th>
+                                    <th>Action</th> <!-- Nouvelle colonne pour le bouton -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,7 +64,13 @@
                     { data: 'classement' },
                     { data: 'creation_date' }, // Assurez-vous que la clé correspond à la propriété dans votre modèle
                     { data: 'duration' }, // Assurez-vous que la clé correspond à la propriété dans votre modèle
-                    { data: 'joueurs' } // Assurez-vous d'adapter cette colonne selon votre structure de données
+                    { data: 'joueurs' }, // Assurez-vous d'adapter cette colonne selon votre structure de données
+                    { // Colonne pour le bouton
+                        data: null,
+                        render: function(data, type, row) {
+                            return '<a href="/game/' + data.id_lobby + '" class="btn btn-primary">Voir plus de détails</a>';
+                        }
+                    }
                 ]
             });
         }
@@ -72,4 +79,3 @@
 
 </script>
 @endsection
-
