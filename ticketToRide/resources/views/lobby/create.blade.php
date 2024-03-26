@@ -1,55 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Create Lobby') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('lobby.store') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Lobby Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="description" class="col-md-4 col-form-label text-md-end">{{ __('Lobby Description') }}</label>
-
-                            <div class="col-md-6">
-                                <textarea id="description" class="form-control @error('description') is-invalid @enderror" name="description" required>{{ old('description') }}</textarea>
-
-                                @error('description')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Create Lobby') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    <div class="container">
+        <h1>Create Lobby</h1>
+        <form action="{{ route('lobby.store') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="name">Lobby Name</label>
+                <input type="text" name="name" id="name" class="form-control" required>
             </div>
-        </div>
+            <div class="form-group">
+                <label for="max_players">Max Players</label>
+                <select name="max_players" id="max_players" class="form-control" required>
+                    <option value="2">2 Players</option>
+                    <option value="3">3 Players</option>
+                    <option value="4">4 Players</option>
+                    <option value="5">5 Players</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="is_private">Private Lobby</label>
+                <input type="checkbox" name="is_private" id="is_private" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Lobby Password</label>
+                <input type="password" name="password" id="password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
     </div>
-</div>
 @endsection

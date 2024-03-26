@@ -33,6 +33,11 @@ class LobbyController extends Controller
 
     return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
 }
+
+public function create()
+{
+    return view('lobby.create');
+}
 public function join($lobby_id)
 {
     // Récupérer le lobby en fonction de l'ID
