@@ -90,4 +90,11 @@ class Lobby extends Model
         return $usersString;
 
     }
+
+    public function getUsersByRank(){
+        return Jouer::join('user', 'jouer.id_user', '=', 'user.id_user')
+            ->where('id_lobby', $this->id_lobby)
+            ->orderBy('classement', 'asc')
+            ->get();
+    }
 }
