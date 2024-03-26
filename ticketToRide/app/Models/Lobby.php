@@ -70,4 +70,21 @@ class Lobby extends Model
             ->where('id_lobby', $this->id_lobby)
             ->get();
     }
+
+    public function getUsersToString(){
+        $users = Jouer::join('user', 'jouer.id_user', '=', 'user.id_user')
+            ->where('id_lobby', $this->id_lobby)
+            ->get();
+        
+        $usersString = '';
+        foreach($users as $user){
+            $usersString .= $user->username . ', ';
+        }
+
+        // foreach($users as $user){
+        //     $usersString
+        // }
+        return $usersString;
+
+    }
 }

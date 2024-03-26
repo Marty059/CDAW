@@ -37,14 +37,18 @@ class StatsController extends Controller
     public function getHistorique($userId) {
         $user= User::find($userId);
         $historique = $user->historiquePartiesJouees();
-        $autresJoueurs = [];
+       // $autresJoueurs = [];
         foreach($historique as $partie){
-            $autresJoueurs[] = $partie->lobby->getUsers();
+            $partie->joueurs = $partie->lobby->getUsersToString();
+            // $autresJoueurs[] = $partie->lobby->getUsers();
         }
         // Manipulez les données au besoin
-        header('Content-Type: application/json');
-        echo json_encode(['historique' => $historique, 'autresJoueurs' => $autresJoueurs]);
+        // header('Content-Type: application/json');
+        // echo json_encode(['historique' => $historique, 'autresJoueurs' => $autresJoueurs]);
         //return new JsonResponse('totot');
         // return new JsonResponse(['historique' => $historique, 'autresJoueurs' => $autresJoueurs]);
+        return response()->json(['data' => $historique]);
+        // return response()->json((['historique' => $historique, 'autresJoueurs' => $autresJoueurs]));
+        
     }
 }
