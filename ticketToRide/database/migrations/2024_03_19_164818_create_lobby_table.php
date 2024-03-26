@@ -15,6 +15,7 @@ class CreateLobbyTable extends Migration
     {
         Schema::create('lobby', function (Blueprint $table) {
             $table->integer('id_lobby')->autoIncrement();
+            $table->string('name')->default(255);
             $table->integer('max_players')->default(5);
             $table->boolean('is_private')->default(false);
             $table->boolean('has_started')->default(false);

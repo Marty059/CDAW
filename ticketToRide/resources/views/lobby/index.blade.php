@@ -13,8 +13,9 @@
                         @foreach($lobbies as $lobby)
                         <li class="list-group-item">
                             <a href="{{ route('show', ['lobby_id' => $lobby->id_lobby]) }}" class="text-decoration-none">
-                                Lobby {{$lobby->id_lobby}}
+                                {{$lobby->name}}
                             </a>
+                            
                         </li>
                         @endforeach
                     </ul>

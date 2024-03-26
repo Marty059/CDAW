@@ -22,6 +22,7 @@ class LobbySeeder extends Seeder
         foreach ($users as $user) {
             // Créer un lobby pour chaque utilisateur
             $lobby = new Lobby();
+            $lobby->name = 'Lobby de ' . $user->username; // Nom du lobby
             $lobby->max_players = rand(2, 5); // Générer un nombre aléatoire entre 2 et 5 pour max_players
             $lobby->is_private = false; // Par défaut, le lobby n'est pas privé
             $lobby->has_started = false; // Par défaut, le lobby n'a pas encore démarré

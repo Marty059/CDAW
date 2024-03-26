@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Lobby Details</div>
+                <div class="card-header">{{$lobby->name}}</div>
                 <div class="card-body">
                     <p><strong>ID:</strong> {{ $lobby->id_lobby }}</p>
                     <p><strong>Max Players:</strong> {{ $lobby->max_players }}</p>
