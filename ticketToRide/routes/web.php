@@ -39,12 +39,16 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-Route::get('/profile/{userId}', [StatsController::class, 'showStats'])->name('profile');
+//Route::get('/profile/{userId}', [StatsController::class, 'showStats'])->name('profile');
 
 Route::get('/lobby/create', [LobbyController::class, 'create'])->name('lobby.create');
 
 Route::get('/lobby/join/{lobbyId}', [LobbyController::class, 'join'])->name('lobby.join');
 Route::get('lobby/leave/{lobbyId}', [LobbyController::class, 'leave'])->name('lobby.leave');
+
+//test
+Route::post('/getHistorique/{userId}', [StatsController::class, 'getHistorique'])->name('getHistorique');
+Route::get('/test2/{userId}', [StatsController::class, 'showStats'])->name('profile');
 
 
 

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Lobby;
 use App\Models\Jouer;
+use Illuminate\Http\JsonResponse;
+
 class StatsController extends Controller
 {
     public function __construct()
@@ -21,15 +23,25 @@ class StatsController extends Controller
         $partiesJouees = $user->partiesJouees();
         $meilleurScore = $user->meilleurScore();
         $historique = $user->historiquePartiesJouees();
-        dd($historique);
         $autresJoueurs = [];
-        foreach($historique->historiquePartiesJouees() as $partie){
+        foreach($historique as $partie){
             $autresJoueurs[] = $partie->lobby->getUsers();
         }
-        return view('stats', ['user' => $user, 
+        ($autresJoueurs);
+       /* return view('stats', ['user' => $user, 
                             'partiesGagnees' => $user->partiesGagnees(),
                              'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs']);
- 
-        return view('stats', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs'));
+        */
+        return view('test2', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs'));
+    }
+    public function getHistorique($userId) {
+        $user= User::find($userId);
+        $historique = $user->historiquePartiesJouees();
+       // $autresJoueurs = [];
+        foreach($historique as $partie){
+            $partie->joueurs = $partie->lobby->getUsersToString($user->id_user);
+            // $autresJoueurs[] = $partie->lobby->getUsers();
+        }
+        return response()->json(['data' => $historique]);        
     }
 }
