@@ -12,7 +12,11 @@
                 <div class="card-header">Statistiques de l'utilisateur</div>
 
                 <div class="card-body">
-                    <!-- Vos données existantes -->
+                    <p><strong>Nom d'utilisateur :</strong> {{ $user->username }}</p>
+                    <p><strong>Nombre de parties gagnées :</strong> {{ $partiesGagnees }}</p>
+                    <p><strong>Nombre de parties perdues :</strong> {{ $partiesPerdues }}</p>
+                    <p><strong>Nombre total de parties jouées :</strong> {{ $partiesJouees }}</p>
+                    <p><strong>Meilleur score :</strong> {{ $meilleurScore }}</p>
 
                     <h2>Historique des parties jouées :</h2>
                     <div class="table-responsive">
