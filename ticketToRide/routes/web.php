@@ -48,4 +48,4 @@ Route::get('lobby/leave/{lobbyId}', [LobbyController::class, 'leave'])->name('lo
 
 //test
 Route::post('/getHistorique/{userId}', [StatsController::class, 'getHistorique'])->name('getHistorique');
-Route::get('/test2/{userId}', [StatsController::class, 'showStats'])->name('profile');
+Route::get('/test/{userId}', [StatsController::class, 'showStats'])->name('profile');
