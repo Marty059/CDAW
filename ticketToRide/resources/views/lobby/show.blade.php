@@ -47,9 +47,22 @@
                 @endforeach
 
                 @if (!$buttonShown && count($users) < $lobby->max_players)
-                    <div class="card-footer text-center">
-                        <a class="btn btn-primary" href="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}">Join</a>
-                    </div>
+                    @if ($lobby->is_private)
+                        <div class="card-footer text-center">
+                            <form action="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input type="password" name="password" id="password" class="form-control">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Join</button>
+                            </form>
+                        </div>
+                    @else
+                        <div class="card-footer text-center">
+                            <a class="btn btn-primary" href="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}">Join</a>
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>

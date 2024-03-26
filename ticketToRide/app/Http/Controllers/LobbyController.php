@@ -38,7 +38,34 @@ class LobbyController extends Controller
 {
     return view('lobby.create');
 }
-public function join($lobby_id)
+
+public function store(){
+    $data = request()->validate([
+        'name' => 'required',
+        'max_players' => 'required|integer|min:2|max:5',
+        'is_private' => 'required|boolean',
+        'duration' => 'required|integer|min:1'
+    ]);
+
+    $data['id_createur'] = auth()->user()->id_user;
+    $data['has_started'] = false;
+    $data['has_ended'] = false;
+    $data['creation_date'] = now();
+    $data['start_date'] = null;
+
+    $lobby = Lobby::create($data);
+
+    Jouer::create([
+        'id_lobby' => $lobby->id_lobby,
+        'id_user' => auth()->user()->id_user,
+        'classement' => 0,
+        'score' => 0
+    ]);
+
+    return redirect()->route('show', $lobby->id_lobby);
+
+}
+public function join(Request $request, $lobby_id)
 {
     // Récupérer le lobby en fonction de l'ID
     $lobby = Lobby::findOrFail($lobby_id);
@@ -56,6 +83,12 @@ public function join($lobby_id)
             return redirect()->route('show', $lobby_id)->with('error', 'Lobby is full');
         }
         else {
+            $password = $request->input('password');
+            print_r($password);
+            if ($lobby->is_private && $password !== $lobby->password) {
+                return redirect()->route('show', $lobby_id)->with('error', 'Incorrect password');
+            }
+
             Jouer::create([
                 'id_lobby' => $lobby_id,
                 'id_user' => auth()->user()->id_user,

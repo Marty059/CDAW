@@ -24,6 +24,7 @@ class Lobby extends Model
         'name',
         'max_players',
         'is_private',
+        'password',
         'has_started',
         'has_ended',
         'creation_date',
@@ -39,7 +40,7 @@ class Lobby extends Model
      *
      * @var array<int, string>
      */
-    protected $hidden = [];
+    protected $hidden = [ 'password'];
 
     /**
      * Les attributs qui doivent être convertis en types de données spécifiques.

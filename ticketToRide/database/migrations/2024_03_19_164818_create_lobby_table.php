@@ -18,6 +18,7 @@ class CreateLobbyTable extends Migration
             $table->string('name')->default(255);
             $table->integer('max_players')->default(5);
             $table->boolean('is_private')->default(false);
+            $table->string('password')->default(null);
             $table->boolean('has_started')->default(false);
             $table->boolean('has_ended')->default(false); 
             $table->date('creation_date')->default(null);  
