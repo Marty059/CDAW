@@ -31,6 +31,7 @@ Route::get('/lobby', [LobbyController::class,'index'])->name('lobby');
 
 Route::get('/lobby/{lobby_id}', [LobbyController::class, 'show'])->name('show');
 Route::post('/lobby/{lobby_id}/notify', [LobbyController::class, 'notify'])->name('notify');
+Route::post('/lobby/{lobby_id}/kick/{player_id}', [LobbyController::class, 'kick'])->name('lobby.kick');
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
