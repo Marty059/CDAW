@@ -16,7 +16,7 @@ class LobbyController extends Controller
     }
     
     public function index(){
-        $lobbies = Lobby::all();
+        $lobbies = Lobby::paginate(10);
         return view('lobby.index', compact('lobbies'));
     }
 
@@ -24,6 +24,17 @@ class LobbyController extends Controller
         $lobby = Lobby::find($lobby_id);
         broadcast(new LobbyJoinedEvent($lobby));
     }
+    public function search(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255', 
+    ]);
+
+    $searchQuery = $request->input('name');
+    $lobbies = Lobby::where('name', 'like', "%$searchQuery%")->paginate(10);
+
+    return view('lobby.index', compact('lobbies'));
+}
 
     public function show($lobby_id)
 {

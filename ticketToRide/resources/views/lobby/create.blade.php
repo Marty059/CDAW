@@ -18,15 +18,22 @@
                     <option value="5">5 Players</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="is_private">Private Lobby</label>
-                <input type="checkbox" name="is_private" id="is_private" class="form-control">
+            <div class="form-group form-check-inline">
+                <input type="checkbox" name="is_private" id="is_private" class="form-check-input">
+                <label for="is_private" class="form-check-label">Private Lobby</label>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="passwordField" style="display: none;">
                 <label for="password">Lobby Password</label>
                 <input type="password" name="password" id="password" class="form-control">
             </div>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <div><button type="submit" class="btn btn-primary">Create</button></div>
+
+            <script>
+                document.getElementById('is_private').addEventListener('change', function() {
+                    var passwordField = document.getElementById('passwordField');
+                    passwordField.style.display = this.checked ? 'block' : 'none';
+                });
+            </script>
         </form>
     </div>
 @endsection

@@ -69,3 +69,8 @@
     </div>
 </div>
 @endsection
+
+@section('scripts')
+    <script> var idLobby = {{ $lobby->id_lobby }};</script>
+
+@endsection

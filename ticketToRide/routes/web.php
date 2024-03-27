@@ -29,6 +29,8 @@ Auth::routes();
 
 Route::get('/lobby', [LobbyController::class,'index'])->name('lobby');
 
+Route::get('lobby/search', [LobbyController::class, 'search'])->name('lobby.search');
+
 Route::get('lobby/create', [LobbyController::class, 'create'])->name('lobby.create');
 Route::post('lobby/store', [LobbyController::class, 'store'])->name('lobby.store');
 
