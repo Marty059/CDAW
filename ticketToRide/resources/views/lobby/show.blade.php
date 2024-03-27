@@ -68,9 +68,5 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-    <script> var id_lobby = {{ $lobby->id_lobby }};</script>
-
+<script> var id_lobby = {{ $lobby->id_lobby }};</script>
 @endsection
