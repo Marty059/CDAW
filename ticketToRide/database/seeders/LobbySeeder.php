@@ -33,8 +33,7 @@ class LobbySeeder extends Seeder
 
             // Génération de la date de début et de la durée du lobby (pour l'exemple, nous utilisons des valeurs aléatoires)
             $lobby->start_date = Carbon::now()->addDays(rand(1, 10)); // Date de début du lobby dans les 10 prochains jours
-            $lobby->duration = rand(1, 24); // Durée du lobby entre 1 et 24 heures
-
+            $lobby->duration = rand(20, 80); // Durée de la partie entre 20 et 80 minutes
             $lobby->save();
         }
 

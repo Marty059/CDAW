@@ -21,8 +21,8 @@ class CreateLobbyTable extends Migration
             $table->string('password')->default(null);
             $table->boolean('has_started')->default(false);
             $table->boolean('has_ended')->default(false); 
-            $table->date('creation_date')->default(null);  
-            $table->date('start_date')->default(null);   
+            $table->dateTime('creation_date')->default(null);  
+            $table->dateTime('start_date')->default(null);   
             $table->double('duration')->default(0);
             $table->integer('id_createur');
             $table->foreign('id_createur')->references('id_user')->on('user');

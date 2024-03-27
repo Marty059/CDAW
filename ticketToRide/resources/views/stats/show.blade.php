@@ -23,16 +23,16 @@
                         <table id="historique-table" class="table table-bordered">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>Score</th>
-                                    <th>Classement</th>
-                                    <th>Date de création</th>
+                                    <th>Début de la partie</th>
                                     <th>Durée de la partie</th>
+                                    <th>Classement</th>
+                                    <th>Score</th>
                                     <th>Autres joueurs</th>
-                                    <th>Action</th> <!-- Nouvelle colonne pour le bouton -->
+                                    <th>Action</th> 
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Les données seront insérées ici via JavaScript -->
+                                
                             </tbody>
                         </table>
                     </div>
@@ -60,12 +60,24 @@
             $('#historique-table').DataTable({
                 data: response.data,
                 columns: [
-                    { data: 'score' },
+                    { 
+                        data: 'start_date',
+                        render: function(data) {
+                            var date = new Date(data);
+                            var options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                            return date.toLocaleDateString('fr-FR', options);
+                        }
+                    },
+                        { 
+                        data: 'duration',
+                        render: function(data) {
+                            return data + ' minutes';
+                        }
+                    },
                     { data: 'classement' },
-                    { data: 'creation_date' }, // Assurez-vous que la clé correspond à la propriété dans votre modèle
-                    { data: 'duration' }, // Assurez-vous que la clé correspond à la propriété dans votre modèle
-                    { data: 'joueurs' }, // Assurez-vous d'adapter cette colonne selon votre structure de données
-                    { // Colonne pour le bouton
+                    { data: 'score' },
+                    { data: 'joueurs' },
+                    { 
                         data: null,
                         render: function(data, type, row) {
                             return '<a href="/game/' + data.id_lobby + '" class="btn btn-primary">Voir plus de détails</a>';
@@ -76,6 +88,6 @@
         }
     });
 });
-
 </script>
+
 @endsection
