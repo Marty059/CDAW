@@ -3,7 +3,8 @@ ticketToRide/public/js/app.js
 ticketToRide/node_modules
 ticketToRide/public/hot
 ticketToRide/public/storage
-ticketToRide/public/*
+ticketToRide/public/css
+ticketToRide/public/js
 ticketToRide/storage/*.key
 ticketToRide/vendor
 ticketToRide/.env
