@@ -57,18 +57,7 @@ class Lobby extends Model
     ];
 
     public function getUsers(){
-        // $id_users = Jouer::where('id_lobby', $this->id_lobby)->pluck('id_user');
-        
-        // $users = [];
-        // foreach($id_users as $id_user){
-        //     $user = User::where('id_user', $id_user)->first();
-        //     if ($user) {
-        //         $users[$id_user] = $user;
-        //     }
-        // }
-        // return $users;
-
-       return Jouer::join('user', 'jouer.id_user', '=', 'user.id_user')
+           return Jouer::join('user', 'jouer.id_user', '=', 'user.id_user')
             ->where('id_lobby', $this->id_lobby)
             ->get();
     }
