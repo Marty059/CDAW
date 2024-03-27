@@ -15,7 +15,7 @@ window.Echo = new Echo({
     host: window.location.hostname + ':6001'
 });
 
-window.Echo.join(`lobby.${idLobby}`)
+window.Echo.join(`lobby.${id_lobby}`)
     .listen('LobbyJoinedEvent', (e) => {
         console.log(e);
     });
