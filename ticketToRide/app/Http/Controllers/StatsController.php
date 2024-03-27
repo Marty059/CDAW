@@ -32,7 +32,7 @@ class StatsController extends Controller
                             'partiesGagnees' => $user->partiesGagnees(),
                              'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs']);
         */
-        return view('test2', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs'));
+        return view('stats.show', compact('user', 'partiesGagnees', 'partiesPerdues', 'partiesJouees', 'meilleurScore','historique','autresJoueurs'));
     }
     public function getHistorique($userId) {
         $user= User::find($userId);
