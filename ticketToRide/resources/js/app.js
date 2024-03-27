@@ -6,7 +6,6 @@
 
 require('./bootstrap');
 
-console.log(`lobby.${idLobby}`)
 
 
 import Echo from 'laravel-echo';
@@ -16,7 +15,7 @@ window.Echo = new Echo({
     host: window.location.hostname + ':6001'
 });
 
-window.Echo.private(`lobby.${idLobby}`)
+window.Echo.join(`lobby.${id_lobby}`)
     .listen('LobbyJoinedEvent', (e) => {
         console.log(e);
     });
