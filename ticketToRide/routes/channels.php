@@ -19,5 +19,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 
 Broadcast::channel('lobby.{lobbyId}', function ($user, $lobbyId) {
-    return App\Models\Lobby::find($lobbyId)->getUsers()->pluck('id_user')->contains($user->id_user);
+    if (App\Models\Lobby::find($lobbyId)->getUsers()->pluck('id_user')->contains($user->id_user)){
+        return ['id_user' => $user->id_user, 'username' => $user->username];
+    };
 });

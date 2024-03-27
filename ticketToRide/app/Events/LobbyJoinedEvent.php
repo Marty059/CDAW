@@ -32,6 +32,6 @@ class LobbyJoinedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('lobby.' . $this->lobby->id_lobby);
+        return new PresenceChannel('lobby.' . $this->lobby->id_lobby);
     }
 }
