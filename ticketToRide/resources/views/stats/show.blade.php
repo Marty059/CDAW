@@ -63,12 +63,13 @@
                     { 
                         data: 'start_date',
                         render: function(data) {
+                            // Formater la date au format désiré
                             var date = new Date(data);
-                            var options = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+                            var options = { year: 'numeric', month: 'short', day: 'numeric' };
                             return date.toLocaleDateString('fr-FR', options);
                         }
                     },
-                        { 
+                    { 
                         data: 'duration',
                         render: function(data) {
                             return data + ' minutes';
