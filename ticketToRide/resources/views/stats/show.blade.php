@@ -9,10 +9,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">User Statistics</div>
+                @if ($user->id_user === auth()->user()->id_user)
+                    <div class="card-header">My Statistics</div>
+                @else
+                    <div class="card-header">{{ $user->username }}'s Statistics</div>
+                @endif
+                
 
-                <div class="card-body">
-                    <p><strong>Username:</strong> {{ $user->username }}</p>
+                <div class="card-body">                
                     <p><strong>Number of games won:</strong> {{ $partiesGagnees }}</p>
                     <p><strong>Number of games lost:</strong> {{ $partiesPerdues }}</p>
                     <p><strong>Total number of games played:</strong> {{ $partiesJouees }}</p>
