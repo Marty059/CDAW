@@ -123,6 +123,7 @@ class User extends AuthenticatableUser implements Authenticatable
             return null;
         }
     }
-    
-    
+
+    public function getUsers(){
+        return Jouer::all();}
 }
