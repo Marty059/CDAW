@@ -58,3 +58,4 @@ Route::get('/game/{lobbyId}', [GameController::class,'show'])->name('game.show')
 
 Route::get('/admin', [AdminController::class, 'showView'])->name('admin');
 Route::post('/getUsers', [AdminController::class, 'showUsers'])->name('getUsers');
+Route::post('/admin/ban-user/{id_user}', 'AdminController@banUser')->name('admin.banUser');

@@ -125,5 +125,17 @@ class User extends AuthenticatableUser implements Authenticatable
     }
 
     public function getUsers(){
-        return User::all();}
+        return User::all();
+    }
+
+    // public function banUser(int $id_user){
+    //     $user = User::find($id_user);
+    //     if ($user) {
+    //         $user->is_banned = true;
+    //         $user->save();
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 }

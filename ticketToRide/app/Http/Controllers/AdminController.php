@@ -22,8 +22,8 @@ class AdminController extends Controller
         if (!$user->is_admin) {
             abort(404);
         }
-        $user = new User();
-        $users = $user->getUsers();
+        // $user = new User();
+        // $users = $user->getUsers();
         return view('admin.showUsers');
     }
 
@@ -32,5 +32,27 @@ class AdminController extends Controller
         $user = new User();
         $users = $user->getUsers();
         return response()->json(['data' => $users]);
+    }
+
+    public function banUser(Request $request, int $id_user){
+        
+        try { 
+            $user = User::find($id_user);
+            if ($user) {
+                // Vérifiez l'action demandée
+                $action = $request->input('action');
+                if ($action == 'ban') {
+                    $user->is_banned = true;
+                } elseif ($action == 'unban') {
+                    $user->is_banned = false;
+                }
+                $user->save();
+                return true; // Vous pouvez retourner une réponse JSON si nécessaire
+            } else {
+                return false; // Ou retournez une réponse JSON pour indiquer que l'utilisateur n'a pas été trouvé
+            }
+        } catch (\Exception $e) {
+            dd($e->getMessage()); // Affiche l'erreur pour le débogage
+        }
     }
 }

@@ -21,6 +21,7 @@
                                     <th>Email</th>
                                     <th>Country</th>
                                     <th>Account creation date</th>
+                                    <th>Is banned</th>
                                     <th>Ban / Unban</th>
                                     <th>About the player</th> 
                                 </tr>
@@ -69,7 +70,20 @@
                         return formattedDate + '<br>' + date.toLocaleTimeString('en-EN', {hour: '2-digit', minute: '2-digit'});
                     }
                 },
-                { data: null },
+                { data: 'is_banned',
+                    render: function(data) {
+                        return data ? 'Yes' : 'No';
+                    }
+                },
+                { data: null,
+                    render: function(data, type, row) {
+                        if (data.is_banned) {
+                            return '<button class="btn btn-danger unban" data-id="' + data.id_user + '">Unban</button>';
+                        } else {
+                            return '<button class="btn btn-warning ban" data-id="' + data.id_user + '">Ban</button>';
+                        }
+                    },
+                },
                 { 
                     data: null,
                     render: function(data, type, row) {
@@ -79,6 +93,25 @@
             ]
                 
             
+        });
+
+        // Gestionnaire d'événement pour le bouton Ban / Unban
+        $('#users-table').on('click', '.ban, .unban', function() {
+            var userId = $(this).data('id');
+            var action = $(this).hasClass('ban') ? 'ban' : 'unban';
+
+            $.ajax({
+                url: '/admin/ban-user/' + userId,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    action: action
+                },
+                success: function(response) {
+                    // Actualiser la table après l'action réussie
+                    $('#users-table').DataTable().ajax.reload();
+                }
+            });
         });
     });
 </script>
