@@ -104,6 +104,17 @@ class User extends AuthenticatableUser implements Authenticatable
     }
 
     
+
+    /**
+     * Retourne tous les joueurs classés du meilleur score au moins bon.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function classementJoueurs()
+    {
+        return User::orderByDesc('meilleur_score')->get();
+    }
+    
     /**
      * Relation avec les parties jouées par l'utilisateur.
      */

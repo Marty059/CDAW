@@ -8,6 +8,7 @@ use App\Http\Controllers\StatsController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PreferencesController;
+use App\Http\Controllers\LeaderboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +61,6 @@ Route::get('/game/{lobbyId}', [GameController::class,'show'])->name('game.show')
 Route::post('/getUsers', [AdminController::class, 'showUsers'])->name('getUsers');
 Route::get('/admin', [AdminController::class, 'showView'])->name('admin');
 Route::post('/admin/ban-user/{id_user}', [AdminController::class, 'banUser'])->name('admin.banUser');
+
+//Route pour le leaderboard
+Route::get('/leaderboard', [LeaderboardController::class, 'showView'])->name('leaderboard');
