@@ -18,7 +18,7 @@ class GameController extends Controller
     $lobby = Lobby::findOrFail($lobbyId);
 
     if (!$lobby->has_ended) {
-        return redirect()->route('welcome')->with('error', "This games has not ended yet.");
+        abort(404, 'La partie n\'est pas encore terminée.');
     }
 
     $players = $lobby->getUsersByRank();
