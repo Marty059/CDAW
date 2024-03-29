@@ -55,7 +55,6 @@ Route::get('lobby/leave/{lobbyId}', [LobbyController::class, 'leave'])->name('lo
 
 //Route pour afficher les détails d'une partie
 Route::get('/game/{lobbyId}', [GameController::class,'show'])->name('game.show');
-
-Route::get('/admin', [AdminController::class, 'showView'])->name('admin');
 Route::post('/getUsers', [AdminController::class, 'showUsers'])->name('getUsers');
-Route::post('/admin/ban-user/{id_user}', 'AdminController@banUser')->name('admin.banUser');
+Route::get('/admin', [AdminController::class, 'showView'])->name('admin');
+Route::post('/admin/ban-user/{id_user}', [AdminController::class, 'banUser'])->name('admin.banUser');
