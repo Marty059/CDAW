@@ -50,21 +50,30 @@ class LobbyController extends Controller
     return view('lobby.create');
 }
 
-public function store(){
-    $data = request()->validate([
+public function store(Request $request){
+
+    dump($request);
+
+    $retour = $request->validate([
         'name' => 'required',
         'max_players' => 'required|integer|min:2|max:5',
-        'is_private' => 'required|boolean',
-        'duration' => 'required|integer|min:1'
+        'password' => 'nullable|string|max:255'
     ]);
 
-    $data['id_createur'] = auth()->user()->id_user;
-    $data['has_started'] = false;
-    $data['has_ended'] = false;
-    $data['creation_date'] = now();
-    $data['start_date'] = null;
+    $retour['is_private'] = (isset($retour['is_private']));
+    $retour['password']=bcrypt($retour['password']);
 
-    $lobby = Lobby::create($data);
+
+    
+
+    $retour['id_createur'] = auth()->user()->id_user;
+    $retour['has_started'] = false;
+    $retour['has_ended'] = false;
+    $retour['creation_date'] = now();
+    $retour['start_date'] = null;
+    $retour['duration']= null;
+
+    $lobby = Lobby::create($retour);
 
     Jouer::create([
         'id_lobby' => $lobby->id_lobby,
@@ -94,20 +103,31 @@ public function join(Request $request, $lobby_id)
             return redirect()->route('show', $lobby_id)->with('error', 'Lobby is full');
         }
         else {
-            $password = $request->input('password');
-            print_r($password);
-            if ($lobby->is_private && $password !== $lobby->password) {
-                return redirect()->route('show', $lobby_id)->with('error', 'Incorrect password');
-            }
-
-            Jouer::create([
-                'id_lobby' => $lobby_id,
-                'id_user' => auth()->user()->id_user,
-                'classement' => 0,
-                'score' => 0
-            ]);
+            if($request->input('password')){
+                if (password_verify($request->password, $lobby->password)) {
+                    Jouer::create([
+                        'id_lobby' => $lobby_id,
+                        'id_user' => auth()->user()->id_user,
+                        'classement' => 0,
+                        'score' => 0
+                    ]);
             
-            return redirect()->route('show', $lobby_id);
+                    return redirect()->route('show', $lobby_id);
+                } else {
+                    return redirect()->route('show', $lobby_id)->with('error', 'Incorrect password');
+                }
+            }
+            else {
+                Jouer::create([
+                    'id_lobby' => $lobby_id,
+                    'id_user' => auth()->user()->id_user,
+                    'classement' => 0,
+                    'score' => 0
+                ]);
+        
+                return redirect()->route('show', $lobby_id);
+            }
+            
         }
     }
 }

@@ -18,12 +18,12 @@ class CreateLobbyTable extends Migration
             $table->string('name')->default(255);
             $table->integer('max_players')->default(5);
             $table->boolean('is_private')->default(false);
-            $table->string('password')->default(null);
+            $table->string('password')->default(null)->nullable();
             $table->boolean('has_started')->default(false);
             $table->boolean('has_ended')->default(false); 
             $table->dateTime('creation_date')->default(null);  
-            $table->dateTime('start_date')->default(null);   
-            $table->double('duration')->default(0);
+            $table->dateTime('start_date')->default(null)->nullable();   
+            $table->double('duration')->default(0)->nullable();
             $table->integer('id_createur');
             $table->foreign('id_createur')->references('id_user')->on('user');
         });
