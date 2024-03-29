@@ -20,7 +20,7 @@ class AdminController extends Controller
     {
         $user = auth()->user();
         if (!$user->is_admin) {
-            abort(404);
+            return redirect()->route('welcome')->with('error', "You cannot access this page.");
         }
         // $user = new User();
         // $users = $user->getUsers();

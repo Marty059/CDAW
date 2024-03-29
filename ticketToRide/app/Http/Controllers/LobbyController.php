@@ -52,18 +52,14 @@ class LobbyController extends Controller
 
 public function store(Request $request){
 
-    dump($request);
-
     $retour = $request->validate([
         'name' => 'required',
         'max_players' => 'required|integer|min:2|max:5',
         'password' => 'nullable|string|max:255'
     ]);
 
-    $retour['is_private'] = (isset($retour['is_private']));
+    $retour['is_private'] = isset($request->is_private);
     $retour['password']=bcrypt($retour['password']);
-
-
     
 
     $retour['id_createur'] = auth()->user()->id_user;

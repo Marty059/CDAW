@@ -46,6 +46,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('profile',['userId' => Auth::user()->id_user]) }}">Profile</a>
                                 </li>
+                                @if (Auth::user()->is_admin)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin') }}">Admin</a>
+                                    </li>
+                                @endif
                         @endauth
                     </ul>
 
