@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+import './datatables';
 
 import Echo from 'laravel-echo';
 

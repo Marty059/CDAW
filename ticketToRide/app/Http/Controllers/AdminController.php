@@ -37,7 +37,7 @@ class AdminController extends Controller
 
     public function banUser(Request $request, int $id_user){
         
-        try { 
+    
             $user = User::find($id_user);
             if ($user) {
                 // Vérifiez l'action demandée
@@ -48,12 +48,10 @@ class AdminController extends Controller
                     $user->is_banned = false;
                 }
                 $user->save();
-                return true; // Vous pouvez retourner une réponse JSON si nécessaire
+                return true; 
             } else {
-                return false; // Ou retournez une réponse JSON pour indiquer que l'utilisateur n'a pas été trouvé
+                return false; 
             }
-        } catch (\Exception $e) {
-            dd($e->getMessage()); // Affiche l'erreur pour le débogage
-        }
+        
     }
 }
