@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PreferencesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +43,8 @@ Route::post('/lobby/{lobby_id}/kick/{player_id}', [LobbyController::class, 'kick
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::get('/preferences', [App\Http\Controllers\PreferencesController::class, 'index'])->name('preferences');
+Route::patch('/preferences/update', [App\Http\Controllers\PreferencesController::class, 'update'])->name('preferences.update');
 
 //Route pour la page de stats
 Route::get('/profile/{userId}', [StatsController::class, 'showStats'])->name('profile');
