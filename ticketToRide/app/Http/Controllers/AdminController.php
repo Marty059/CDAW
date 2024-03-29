@@ -15,10 +15,22 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
+    
+    public function showView()
+    {
+        $user = auth()->user();
+        if (!$user->is_admin) {
+            abort(404);
+        }
+        $user = new User();
+        $users = $user->getUsers();
+        return view('admin.showUsers');
+    }
+
     public function showUsers()
     {
         $user = new User();
         $users = $user->getUsers();
-        return view('admin.showUsers', compact('users'));
+        return response()->json(['data' => $users]);
     }
 }

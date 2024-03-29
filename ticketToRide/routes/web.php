@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,17 +44,17 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-
+//Route pour la page de stats
 Route::get('/profile/{userId}', [StatsController::class, 'showStats'])->name('profile');
+Route::post('/getHistorique/{userId}', [StatsController::class, 'getHistorique'])->name('getHistorique');
 
 
 Route::get('/lobby/join/{lobbyId}', [LobbyController::class, 'join'])->name('lobby.join');
 Route::post('/lobby/join/{lobbyId}', [LobbyController::class, 'join'])->name('lobby.join');
 Route::get('lobby/leave/{lobbyId}', [LobbyController::class, 'leave'])->name('lobby.leave');
 
-//test
-Route::post('/getHistorique/{userId}', [StatsController::class, 'getHistorique'])->name('getHistorique');
-//Route::get('/test/{userId}', [StatsController::class, 'showStats'])->name('profile');
-
-
+//Route pour afficher les détails d'une partie
 Route::get('/game/{lobbyId}', [GameController::class,'show'])->name('game.show');
+
+Route::get('/admin', [AdminController::class, 'showView'])->name('admin');
+Route::post('/getUsers', [AdminController::class, 'showUsers'])->name('getUsers');

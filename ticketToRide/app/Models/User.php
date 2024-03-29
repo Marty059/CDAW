@@ -125,5 +125,5 @@ class User extends AuthenticatableUser implements Authenticatable
     }
 
     public function getUsers(){
-        return Jouer::all();}
+        return User::all();}
 }

@@ -14,15 +14,15 @@
 
                 <div class="card-body">                
                     <div class="table-responsive">
-                        <table id="historique-table" class="table table-bordered">
+                        <table id="users-table" class="table table-bordered">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th>User</th>
-                                    <th>Game Duration</th>
-                                    <th>Ranking</th>
-                                    <th>Score</th>
-                                    <th>Other Players</th>
-                                    <th>More details</th> 
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Country</th>
+                                    <th>Account creation date</th>
+                                    <th>Ban / Unban</th>
+                                    <th>About the player</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,9 +42,9 @@
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#historique-table').DataTable({
+        $('#users-table').DataTable({
             ajax:{
-                url: "{{ route('getHistorique', ['userId' => $user->id_user]) }}",
+                url: "{{ route('getUsers') }}",
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -53,8 +53,15 @@
             },  
 
             columns: [
+                { data: 'username'},
                 { 
-                    data: 'start_date',
+                    data: 'email',
+                    // render: function(data) {
+                    //     return data + ' minutes';
+                    // }
+                },
+                { data: 'country' },
+                { data: 'created_at',
                     render: function(data) {
                         var date = new Date(data);
                         var options = { year: 'numeric', month: 'short', day: 'numeric'};
@@ -62,19 +69,11 @@
                         return formattedDate + '<br>' + date.toLocaleTimeString('en-EN', {hour: '2-digit', minute: '2-digit'});
                     }
                 },
-                { 
-                    data: 'duration',
-                    render: function(data) {
-                        return data + ' minutes';
-                    }
-                },
-                { data: 'classement' },
-                { data: 'score' },
-                { data: 'joueurs' },
+                { data: null },
                 { 
                     data: null,
                     render: function(data, type, row) {
-                        return '<a href="/game/' + data.id_lobby + '" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>';
+                        return '<a href="/profile/' + data.id_user + '" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>';
                     }
                 }
             ]

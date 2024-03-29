@@ -15,6 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <meta http-equiv="refresh" content="2;url={{ route('welcome') }}">
                 </div>
             </div>
         </div>
