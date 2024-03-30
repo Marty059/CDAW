@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as AuthenticatableUser;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends AuthenticatableUser implements Authenticatable
 {
@@ -105,15 +106,15 @@ class User extends AuthenticatableUser implements Authenticatable
 
     
 
-    /**
-     * Retourne tous les joueurs classés du meilleur score au moins bon.
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public static function classementJoueurs()
-    {
-        return User::orderByDesc('meilleur_score')->get();
-    }
+    // /**
+    //  * Retourne tous les joueurs classés du meilleur score au moins bon.
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Collection
+    //  */
+    // public static function classementJoueurs()
+    // {
+    //     return User::orderByDesc('meilleur_score')->get();
+    // }
     
     /**
      * Relation avec les parties jouées par l'utilisateur.
@@ -149,4 +150,18 @@ class User extends AuthenticatableUser implements Authenticatable
     //         return false;
     //     }
     // }
+
+    /**
+     * Retourne le classement des joueurs selon leur meilleur score.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function classementJoueurs()
+    {
+        return self::select('user.id_user', 'username', DB::raw('MAX(score) as meilleur_score'))
+        ->join('jouer', 'user.id_user', '=', 'jouer.id_user')
+        ->groupBy('user.id_user', 'username')
+        ->orderByDesc('meilleur_score')
+        ->get();
+    }
 }
