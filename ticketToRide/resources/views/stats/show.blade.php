@@ -84,7 +84,7 @@
                 { 
                     data: null,
                     render: function(data, type, row) {
-                        return '<a href="/game/' + data.id_lobby + '" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>';
+                        return '<a href="/game/stats/' + data.id_lobby + '" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>';
                     }
                 }
             ]

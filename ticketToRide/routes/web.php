@@ -57,7 +57,9 @@ Route::post('/lobby/join/{lobbyId}', [LobbyController::class, 'join'])->name('lo
 Route::get('lobby/leave/{lobbyId}', [LobbyController::class, 'leave'])->name('lobby.leave');
 
 //Route pour afficher les détails d'une partie
-Route::get('/game/{lobbyId}', [GameController::class,'show'])->name('game.show');
+Route::get('/game/{lobbyId}', [GameController::class,'showGameplay'])->name('game.showGameplay');
+Route::post('/game/start/{lobbyId}', [GameController::class,'startGame'])->name('game.start');
+Route::get('/game/stats/{lobbyId}', [GameController::class,'show'])->name('game.show');
 Route::post('/getUsers', [AdminController::class, 'showUsers'])->name('getUsers');
 Route::get('/admin', [AdminController::class, 'showView'])->name('admin');
 Route::post('/admin/ban-user/{id_user}', [AdminController::class, 'banUser'])->name('admin.banUser');

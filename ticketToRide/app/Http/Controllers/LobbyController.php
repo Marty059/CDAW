@@ -16,8 +16,9 @@ class LobbyController extends Controller
         $this->middleware('auth');
     }
     
-    public function index(){
-        $lobbies = Lobby::paginate(10);
+    public function index()
+    {
+        $lobbies = Lobby::where('has_started', false)->paginate(10);
         return view('lobby.index', compact('lobbies'));
     }
 
@@ -86,6 +87,14 @@ public function join(Request $request, $lobby_id)
 {
     // Récupérer le lobby en fonction de l'ID
     $lobby = Lobby::findOrFail($lobby_id);
+
+    if($lobby->has_started){
+        return redirect()->route('show', $lobby_id)->with('error', 'Game has already started');
+    }
+    else if($lobby->has_ended){
+        return redirect()->route('show', $lobby_id)->with('error', 'Game has already ended');
+    }
+    else
 
     if(auth()->user()->id_user == $lobby->id_createur){
         return redirect()->route('show', $lobby_id)->with('error', 'You are the creator of this lobby');

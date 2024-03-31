@@ -6,11 +6,3 @@
 
 require('./bootstrap');
 
-import Echo from 'laravel-echo';
-
-if (typeof id_lobby !== 'undefined') {
-    window.Echo.join(`lobby.${id_lobby}`)
-        .listen('LobbyJoinedEvent', (e) => {
-            console.log(e);
-        });
-}

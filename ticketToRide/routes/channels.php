@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use App\Models\Lobby;
+use App\Models\Jouer;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,25 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 
 Broadcast::channel('lobby.{lobbyId}', function ($user, $lobbyId) {
-    if (App\Models\Lobby::find($lobbyId)->getUsers()->pluck('id_user')->contains($user->id_user)){
-        return ['id_user' => $user->id_user, 'username' => $user->username];
-    };
+    // Check if the lobby exists
+    $lobby = Lobby::find($lobbyId);
+    
+    if (!$lobby) {
+        return false; // Lobby not found, deny access
+    }
+
+    // Check if the user is a member of the lobby
+    $isMember = Jouer::where('id_lobby', $lobbyId)
+                    ->where('id_user', $user->id_user)
+                    ->exists();
+    
+    if ($isMember) {
+        // Return user data if authorized
+        return [
+            'id_user' => $user->id_user,
+            'username' => $user->username
+        ];
+    }
+
+    return false; // User not authorized, deny access
 });

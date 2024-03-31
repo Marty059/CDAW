@@ -64,9 +64,21 @@
                         </div>
                     @endif
                 @endif
+                @if (auth()->user()->id_user === $lobby->id_createur)
+                <div class="card-footer text-center">
+                    <form action="{{ route('game.start', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Start Game</button>
+                    </form>
+                </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
 <script> var id_lobby = {{ $lobby->id_lobby }};</script>
+<script src="{{ asset('js/game.js') }}"></script>
 @endsection

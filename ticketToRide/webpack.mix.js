@@ -12,5 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .js('resources/js/game.js', 'public/js') // Add this line to include game.js
     .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps();
