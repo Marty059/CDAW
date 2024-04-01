@@ -131,7 +131,11 @@ class GameController extends Controller
 
         Redis::srem('lobby:'.$lobbyId.':available_wagon_card_ids', $randomWagonCard->id_wagon);
 
-        Redis::sadd('lobby:'.$lobbyId.':player:'.$userId.':wagon_cards', json_encode($randomWagonCardData));
+        $playerWagonCards = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.$userId.':wagon_cards'),true);
+
+        $playerWagonCards[] = $randomWagonCardData;
+
+        Redis::set('lobby:'.$lobbyId.':player:'.$userId.':wagon_cards', json_encode($playerWagonCards));
 
         $turn_number = Redis::get('lobby:'.$lobbyId.':turn_number');
         if ($turn_number == 0) {
@@ -170,7 +174,11 @@ class GameController extends Controller
 
         Redis::srem('lobby:'.$lobbyId.':available_destination_card_ids', $randomDestinationCards->pluck('id_destination')->toArray());
 
-        Redis::sadd('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':destination_cards', json_encode($randomDestinationCardsData));
+        $playerDestinationCards = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.$userId.':destination_cards'),true);
+
+        $playerDestinationCards[] = $playerDestinationCards;
+
+        Redis::set('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':destination_cards', json_encode($playerDestinationCards));
 
         $players = Lobby::findOrFail($lobbyId)->getUsers();
         $currentTurnIndex = array_search($userId, $players->pluck('id_user')->toArray());
