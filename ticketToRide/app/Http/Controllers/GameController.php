@@ -9,6 +9,8 @@ use App\Models\Lobby;
 use App\Models\Jouer;
 use Illuminate\Support\Facades\Cache;
 use \App\Events\GameLaunchedEvent;
+use App\Models\Destination;
+use App\Models\Wagon;
 
 class GameController extends Controller
 {
@@ -50,5 +52,14 @@ class GameController extends Controller
         }
         broadcast(new GameLaunchedEvent($lobbyId))->toOthers();
         return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
+    }
+
+    public function initializeGame($lobbyId){
+        $lobby = Lobby::findOrFail($lobbyId);
+
+        $players = $lobby->getUsers();
+
+        $destinationCards = Destination::all();
+
     }
 }

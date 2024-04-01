@@ -21,7 +21,6 @@ class Wagon extends Model
     protected $fillable = [
         'id_wagon',
         'colour',
-        'quantity',
     ];
 
     public $timestamps = false;
