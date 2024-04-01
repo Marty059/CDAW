@@ -15,7 +15,7 @@ class CreateWagonTable extends Migration
     {
         Schema::create('wagon', function (Blueprint $table) {
             $table->integer('id_wagon')->autoIncrement();
-            $table->string('colour')->default(null);
+            $table->string('colour')->default(null)->nullable(true);
         });
     }
 

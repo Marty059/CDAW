@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LobbySeeder::class,
             JouerSeeder::class,
+            DestinationSeeder::class,
+            WagonSeeder::class,
         ]);
     }
 }

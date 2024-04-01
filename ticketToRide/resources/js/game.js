@@ -1,4 +1,6 @@
 import Echo from 'laravel-echo';
+
+
 // import { io } from 'socket.io-client'; // Replace the unused import statement for 'pusher-js' package with the necessary import statement for 'socket.io' package
 window.Echo = new Echo({
     broadcaster: 'socket.io', // Change the broadcaster to 'socket.io'
@@ -7,10 +9,15 @@ window.Echo = new Echo({
     logLevel: 'debug'
 });
 
-window.Echo.join(`lobby.${id_lobby}`).listen('GameLaunchedEvent', function (e) {
+window.Echo.join(`lobby.${id_lobby}`)
+    .listen('GameLaunchedEvent', function (e) {
     console.log('GameLaunchedEvent', e);
     const lobbyId = e.id_lobby;
     window.location.href = `/game/${lobbyId}`;
-});
+})
+.listen('TurnChangedEvent', function (e) {
+    window.location.reload();
+})
+
 
 
