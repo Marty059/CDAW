@@ -7,10 +7,10 @@
     @csrf
     <button type="submit">Pick a random train card</button>
 </form>
-<!-- <form action="{{ route('game.pickDestinationCards', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
+<form action="{{ route('game.pickDestinationCards', ['lobbyId' => $lobby->id_lobby,'userId' => auth()->user()->id_user]) }}" method="POST">
     @csrf
     <button type="submit">Pick 3 destination cards</button>
-</form> -->
+</form>
 @if ($lobby->id_createur === auth()->user()->id_user)
 <form action="{{route('game.initialize', ['lobbyId' => $lobby->id_lobby])}}" method="POST">
     @csrf

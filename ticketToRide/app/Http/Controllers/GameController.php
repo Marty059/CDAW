@@ -153,6 +153,11 @@ class GameController extends Controller
     }
 
     public function pickDestinationCards($lobbyId,$userId){
+        $currentTurn = Redis::get('lobby:'.$lobbyId.':current_turn');
+
+        if ($currentTurn != $userId) {
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'It is not your turn to play.');
+        }
         $availableDestinationCardIds = Redis::smembers('lobby:'.$lobbyId.':available_destination_card_ids');
         $turn_number = Redis::get('lobby:'.$lobbyId.':turn_number');
 
@@ -176,7 +181,9 @@ class GameController extends Controller
 
         $playerDestinationCards = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.$userId.':destination_cards'),true);
 
-        $playerDestinationCards[] = $playerDestinationCards;
+        foreach ($randomDestinationCardsData as $destinationCard) {
+            $playerDestinationCards[] = $destinationCard;
+        }
 
         Redis::set('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':destination_cards', json_encode($playerDestinationCards));
 
