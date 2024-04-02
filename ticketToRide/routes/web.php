@@ -61,10 +61,11 @@ Route::get('/game/{lobbyId}', [GameController::class,'showGameplay'])->name('gam
 Route::post('/game/start/{lobbyId}', [GameController::class,'startGame'])->name('game.start');
 Route::post('/game/initialize/{lobbyId}', [GameController::class,'initializeGame'])->name('game.initialize');
 Route::post('/game/pickrandomtraincard/{lobbyId}/{userId}', [GameController::class,'pickRandomTrainCard'])->name('game.pickRandomTrainCard');
-Route::post('/game/picktraincard/{lobbyId}/{userId}/{wagonId}', [GameController::class,'pickTrainCard'])->name('game.pickTrainCard');
+Route::post('/game/picktraincard/{lobbyId}/{userId}/{cardId}', [GameController::class,'pickTrainCard'])->name('game.pickTrainCard');
 Route::post('/game/pickdestinationcards/{lobbyId}/{userId}', [GameController::class,'pickDestinationCards'])->name('game.pickDestinationCards');
 Route::get('/game/stats/{lobbyId}', [GameController::class,'show'])->name('game.show');
 Route::post('/getUsers', [AdminController::class, 'showUsers'])->name('getUsers');
+
 Route::get('/admin', [AdminController::class, 'showView'])->name('admin');
 Route::post('/admin/ban-user/{id_user}', [AdminController::class, 'banUser'])->name('admin.banUser');
 
