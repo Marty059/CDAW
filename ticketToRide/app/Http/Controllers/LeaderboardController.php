@@ -28,16 +28,17 @@ class LeaderboardController extends Controller
         $classement = User::classementJoueurs();
         // dd($classement);
 
-        return view('leaderboard.show', compact('classement'));
+        //return view('leaderboard.show', compact('classement'));
+        return view('leaderboard.show');
 
 
        
     }
 
-    public function getLeaderboard(): JsonResponse
+    public function getLeaderboard()
     {
         $classement = User::classementJoueurs();
-        return response()->json($classement);
+        return response()->json(['data'=> $classement]);
     }
 
 
