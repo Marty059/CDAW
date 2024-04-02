@@ -1,11 +1,14 @@
-<h1>Classement des joueurs</h1>
+@extends('layouts.app')
+
+@section('content')
+<h1>General player ranking</h1>
 
 <table>
     <thead>
         <tr>
-            <th>Classement</th>
-            <th>Nom d'utilisateur</th>
-            <th>Meilleur score</th>
+            <th>Ranking</th>
+            <th>Username</th>
+            <th>Best score</th>
         </tr>
     </thead>
     <tbody>
@@ -18,3 +21,4 @@
         @endforeach
     </tbody>
 </table>
+@endsection

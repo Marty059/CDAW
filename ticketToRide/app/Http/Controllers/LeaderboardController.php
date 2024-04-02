@@ -26,10 +26,18 @@ class LeaderboardController extends Controller
         // }
         //$leader = User::classementJoueurs();
         $classement = User::classementJoueurs();
+        // dd($classement);
+
         return view('leaderboard.show', compact('classement'));
 
 
        
+    }
+
+    public function getLeaderboard(): JsonResponse
+    {
+        $classement = User::classementJoueurs();
+        return response()->json($classement);
     }
 
 
