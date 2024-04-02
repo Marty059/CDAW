@@ -12,6 +12,7 @@ class Wagon extends Model
      * @var string
      */
     protected $table = 'wagon';
+    protected $primaryKey = 'id_wagon';
 
     /**
      * Les attributs qui sont mass assignable.

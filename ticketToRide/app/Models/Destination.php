@@ -12,6 +12,7 @@ class Destination extends Model
      * @var string
      */
     protected $table = 'destination';
+    protected $primaryKey = 'id_destination';
 
     /**
      * Les attributs qui sont mass assignable.
