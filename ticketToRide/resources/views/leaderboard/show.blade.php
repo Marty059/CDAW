@@ -52,8 +52,8 @@
             },
             columns: [
                 { data: null, render: function(data, type, row, meta) { 
-                     return meta.row + 1; 
-                    //return row.id_user == currentUserId ? '<span class="current-user">' + (meta.row + 1) + '</span>' : (meta.row + 1); 
+                     //return meta.row + 1; 
+                    return row.id_user == currentUserId ? '<span class="current-user">' + (meta.row + 1) + '</span>' : (meta.row + 1); 
                 } },
                 { data: 'username', render: function(data, type, row) { 
                     return row.id_user == currentUserId ? '<span class="current-user">' + data + '</span>' : data; 
@@ -63,6 +63,10 @@
                 } },
             ],
              order: [[0, 'asc']], // Tri par ranking par défaut
+             "columnDefs": [
+            { "type": "num", "targets": [0] },
+            { "type": "num", "targets": [2]} // Remplacez 0 par l'index de la colonne que vous souhaitez ordonner comme un nombre
+        ]
         });
     });
 </script>
