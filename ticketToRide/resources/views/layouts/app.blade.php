@@ -46,11 +46,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('profile',['userId' => Auth::user()->id_user]) }}">Profile</a>
                                 </li>
-                                @if (Auth::user()->is_admin)
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin') }}">Admin</a>
-                                    </li>
-                                @endif
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('leaderboard') }}">Leaderboard</a>
+                                </li>
                         @endauth
                     </ul>
 
@@ -70,22 +68,32 @@
                                 </li>
                             @endif
                         @else
+                            @if (Auth::user()->is_admin)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin') }}">Admin</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->username }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('preferences') }}">Preferences</a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                    <a class="dropdown-item d-flex justify-content-between" href="{{ route('preferences') }}">
+                                        <span>Preferences</span>
+                                        <i class="bi bi-gear"></i>
+                                    </a>
+                                    <a class="dropdown-item d-flex justify-content-between" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                        <span>{{ __('Logout') }}</span>
+                                        <i class="bi bi-box-arrow-right"></i>
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
+
                             </li>
                         @endguest
                     </ul>
