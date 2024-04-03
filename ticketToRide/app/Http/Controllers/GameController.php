@@ -7,6 +7,7 @@ use App\Events\PostCreatedEvent;
 use App\Events\TurnChangedEvent;
 use Illuminate\Http\Request;
 use App\Models\Lobby;
+use App\Models\Path;
 use App\Models\User;
 use App\Models\Jouer;
 use Illuminate\Support\Facades\Cache;
@@ -64,6 +65,7 @@ class GameController extends Controller
         $players = $lobby->getUsers();
         $destinationCards = Destination::all();
         $wagonCards = Wagon::all();
+        $trainPaths=Path::all();
     
         $allWagonCardIds = $wagonCards->pluck('id_wagon')->toArray();
         $allDestinationCardIds = $destinationCards->pluck('id_destination')->toArray();
@@ -82,13 +84,19 @@ class GameController extends Controller
         Redis::del('lobby:'.$lobbyId.':pickable_wagon_card_ids');
         Redis::sadd('lobby:'.$lobbyId.':pickable_wagon_card_ids', $randomWagonCardIds);
 
-    
+        $allTrainPaths = Path::all();
+        $allTrainPathsData = $allTrainPaths->map(function ($trainPath) {
+            return $trainPath->toArray();
+        })->toArray();
+        Redis::del('lobby:'.$lobbyId.':available_train_paths');
+        Redis::set('lobby:'.$lobbyId.':available_train_paths', json_encode($allTrainPathsData));
+
         foreach ($players as $player) {
             $availableDestinationCardIds = Redis::smembers('lobby:'.$lobbyId.':available_destination_card_ids');
             $availableWagonCardIds = Redis::smembers('lobby:'.$lobbyId.':available_wagon_card_ids');
             $playerWagonCards = Wagon::whereIn('id_wagon', $availableWagonCardIds)->get()->shuffle()->take(4);
             $playerDestinationCards = Destination::whereIn('id_destination', $availableDestinationCardIds)->get()->shuffle()->take(3);
-    
+
             // Convert wagon card data to array for caching
             $playerWagonCardsData = $playerWagonCards->map(function ($wagonCard) {
                 return $wagonCard->toArray();
@@ -114,6 +122,8 @@ class GameController extends Controller
             // Add the first player's turn to the cache
             Redis::set('lobby:'.$lobbyId.':current_turn', $players[0]->id_user);
             Redis::set('lobby:'.$lobbyId.':turn_number', 0);
+
+            Redis::del('lobby:'.$lobbyId.':player:'.$player->id_user.':layed_train_paths');
         }
     
         return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
@@ -253,5 +263,64 @@ class GameController extends Controller
             broadcast(new TurnChangedEvent($lobbyId))->toOthers();
         }
         return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
+    }
+
+    public function placeTrainPath(Request $request, $lobbyId){
+
+        $currentTurn = Redis::get('lobby:'.$lobbyId.':current_turn');
+
+        if ($currentTurn != auth()->user()->id_user) {
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'It is not your turn to play.');
+        }
+
+        $turn_number = Redis::get('lobby:'.$lobbyId.':turn_number');
+
+        if($turn_number == 1){
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'You can only pick trains on your second turn.');
+        }
+
+        $selectedPathId = $request->input('train_path');
+
+        $availableTrainPaths = json_decode(Redis::get('lobby:'.$lobbyId.':available_train_paths'),true);
+
+        $selectedPath = collect($availableTrainPaths)->firstWhere('id_path', $selectedPathId);
+
+        if (!$selectedPath) {
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'This path is not available to lay trains.');
+        }
+
+        $playerWagonCards = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':wagon_cards'),true);
+
+
+        // Check if the player has enough wagons of the color of the paths to lay trains
+        $selectedPathColor = $selectedPath['colour'] ?? null;
+        $playerWagonCardsByColor = collect($playerWagonCards)->where('colour', $selectedPathColor)->count();
+        $playerWagonCardsLocomotive = collect($playerWagonCards)->whereNull('colour')->count();
+
+        $azeaz = collect($playerWagonCards);
+
+        dump($azeaz);
+
+
+        if($playerWagonCardsByColor + $playerWagonCardsLocomotive >= $selectedPath['length']){
+            $cardsToRemove = $selectedPath['length'];
+            $playerWagonCards = collect($playerWagonCards)->filter(function ($wagonCard) use ($selectedPathColor, &$cardsToRemove) {
+                if (($wagonCard['colour'] == $selectedPathColor|| !$wagonCard['colour']) && $cardsToRemove > 0) {
+                    $cardsToRemove--;
+                    return false; // Remove this card
+                }
+                return true; // Keep this card
+            })->values()->toArray();
+
+            dump($playerWagonCards);
+            dd();
+            Redis::set('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':wagon_cards', json_encode($playerWagonCards));
+        }
+        else{
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'You do not have enough wagons of the right color to lay trains on this path.');
+        }
+        
+        Redis::srem('lobby:'.$lobbyId.':available_train_paths', $selectedPath->toArray());
+        
     }
 }
