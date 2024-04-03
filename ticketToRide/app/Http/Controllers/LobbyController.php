@@ -44,7 +44,22 @@ class LobbyController extends Controller
 
     $users = $lobby->getUsers();
 
-    return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
+    if (($users->pluck('id_user')->contains(auth()->user()->id_user))) {
+        if($lobby->has_started){
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobby->id_lobby])->with('error', 'Game has already started');
+        }
+        else if($lobby->has_ended){
+            return redirect()->route('game.show', ['lobbyId' => $lobby->id_lobby])->with('error', 'Game has already ended');
+        }
+        else{
+            return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
+        }
+    }
+    else {
+        return view('lobby.show', ['lobby' => $lobby, 'users' => $users]);
+    }   
+    
+    
 }
 
     public function create()

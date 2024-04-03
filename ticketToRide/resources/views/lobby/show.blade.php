@@ -11,7 +11,6 @@
                     <p><strong>ID:</strong> {{ $lobby->id_lobby }}</p>
                     <p><strong>Max Players:</strong> {{ $lobby->max_players }}</p>
                     <p><strong>Private:</strong> {{ $lobby->is_private ? 'Yes' : 'No' }}</p>
-                    <p><strong>Creation Date:</strong> {{ $lobby->creation_date }}</p>
                     <p><strong>Creator ID:</strong> {{ $lobby->id_createur }}</p>
                 </div>
                 <div class="card-body">
@@ -46,31 +45,37 @@
                     @endif
                 @endforeach
 
-                @if (!$buttonShown && count($users) < $lobby->max_players)
-                    @if ($lobby->is_private)
-                        <div class="card-footer text-center">
-                            <form action="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="password">Password:</label>
-                                    <input type="password" name="password" id="password" class="form-control">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Join</button>
-                            </form>
-                        </div>
-                    @else
-                        <div class="card-footer text-center">
-                            <a class="btn btn-primary" href="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}">Join</a>
-                        </div>
+                @if ($lobby->has_started || $lobby->has_ended)
+                    <div class="card-footer text-center">
+                        <a class="btn btn-primary" href="{{ route('game.showGameplay', ['lobbyId' => $lobby->id_lobby]) }}">View Game</a>
+                    </div>
+                @else
+                    @if (!$buttonShown && count($users) < $lobby->max_players)
+                        @if ($lobby->is_private)
+                            <div class="card-footer text-center">
+                                <form action="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="password">Password:</label>
+                                        <input type="password" name="password" id="password" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Join</button>
+                                </form>
+                            </div>
+                        @else
+                            <div class="card-footer text-center">
+                                <a class="btn btn-primary" href="{{ route('lobby.join', ['lobbyId' => $lobby->id_lobby]) }}">Join</a>
+                            </div>
+                        @endif
                     @endif
-                @endif
-                @if (auth()->user()->id_user === $lobby->id_createur)
-                <div class="card-footer text-center">
-                    <form action="{{ route('game.start', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-primary">Start Game</button>
-                    </form>
-                </div>
+                    @if (auth()->user()->id_user === $lobby->id_createur)
+                    <div class="card-footer text-center">
+                        <form action="{{ route('game.start', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Start Game</button>
+                        </form>
+                    </div>
+                    @endif
                 @endif
             </div>
         </div>

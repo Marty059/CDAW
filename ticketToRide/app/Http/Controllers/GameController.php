@@ -41,7 +41,18 @@ class GameController extends Controller
         $lobby = Lobby::findOrFail($lobbyId);
 
         $users = $lobby->getUsers();
-        return view('game.gameplay', ['lobby' => $lobby, 'users' => $users]);
+
+        if (($users->pluck('id_user')->contains(auth()->user()->id_user))) {
+            if($lobby->has_started){
+                return view('game.gameplay', ['lobby' => $lobby, 'users' => $users]);
+            }
+            else{
+                return redirect()->route('show', ['lobby_id' => $lobbyId])->with('error', 'Game has not started yet');
+            }
+        }
+        else {
+            return redirect()->route('show', ['lobby_id' => $lobbyId])->with('error', 'You are not in this game');
+        }
     }
 
     public function startGame($lobbyId){
@@ -65,7 +76,6 @@ class GameController extends Controller
         $players = $lobby->getUsers();
         $destinationCards = Destination::all();
         $wagonCards = Wagon::all();
-        $trainPaths=Path::all();
     
         $allWagonCardIds = $wagonCards->pluck('id_wagon')->toArray();
         $allDestinationCardIds = $destinationCards->pluck('id_destination')->toArray();
@@ -74,6 +84,8 @@ class GameController extends Controller
         Redis::del('lobby:'.$lobbyId.':available_destination_card_ids');
         Redis::sadd('lobby:'.$lobbyId.':available_wagon_card_ids', $allWagonCardIds);
         Redis::sadd('lobby:'.$lobbyId.':available_destination_card_ids', $allDestinationCardIds);
+
+        Redis::set('lobby:'.$lobbyId.':size', count($players));
 
         $randomWagonCardIds = Redis::srandmember('lobby:'.$lobbyId.':available_wagon_card_ids', 5);
 
@@ -157,17 +169,7 @@ class GameController extends Controller
 
         Redis::set('lobby:'.$lobbyId.':player:'.$userId.':wagon_cards', json_encode($playerWagonCards));
 
-        $turn_number = Redis::get('lobby:'.$lobbyId.':turn_number');
-        if ($turn_number == 0) {
-            Redis::set('lobby:'.$lobbyId.':turn_number', 1);
-        } else {
-            Redis::set('lobby:'.$lobbyId.':turn_number', 0);
-            $players = Lobby::findOrFail($lobbyId)->getUsers();
-            $currentTurnIndex = array_search($userId, $players->pluck('id_user')->toArray());
-            $nextTurnIndex = ($currentTurnIndex + 1) % count($players);
-            Redis::set('lobby:'.$lobbyId.':current_turn', $players[$nextTurnIndex]->id_user);
-            broadcast(new TurnChangedEvent($lobbyId))->toOthers();
-        }
+        $this->nextTurnTrainCard($lobbyId, $userId);
         return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
     }
 
@@ -206,12 +208,8 @@ class GameController extends Controller
 
         Redis::set('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':destination_cards', json_encode($playerDestinationCards));
 
-        $players = Lobby::findOrFail($lobbyId)->getUsers();
-        $currentTurnIndex = array_search($userId, $players->pluck('id_user')->toArray());
-        $nextTurnIndex = ($currentTurnIndex + 1) % count($players);
-        Redis::set('lobby:'.$lobbyId.':current_turn', $players[$nextTurnIndex]->id_user);
-        
-        broadcast(new TurnChangedEvent($lobbyId))->toOthers();
+        $this->nextTurnOthers($lobbyId, $userId);
+
         return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
     }
 
@@ -251,17 +249,7 @@ class GameController extends Controller
         Redis::srem('lobby:'.$lobbyId.':available_wagon_card_ids', $randomWagonCardIds);
         Redis::sadd('lobby:'.$lobbyId.':pickable_wagon_card_ids', $randomWagonCardIds);
 
-        $turn_number = Redis::get('lobby:'.$lobbyId.':turn_number');
-        if ($turn_number == 0) {
-            Redis::set('lobby:'.$lobbyId.':turn_number', 1);
-        } else {
-            Redis::set('lobby:'.$lobbyId.':turn_number', 0);
-            $players = Lobby::findOrFail($lobbyId)->getUsers();
-            $currentTurnIndex = array_search($userId, $players->pluck('id_user')->toArray());
-            $nextTurnIndex = ($currentTurnIndex + 1) % count($players);
-            Redis::set('lobby:'.$lobbyId.':current_turn', $players[$nextTurnIndex]->id_user);
-            broadcast(new TurnChangedEvent($lobbyId))->toOthers();
-        }
+        $this->nextTurnTrainCard($lobbyId, $userId);
         return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
     }
 
@@ -284,6 +272,7 @@ class GameController extends Controller
         $availableTrainPaths = json_decode(Redis::get('lobby:'.$lobbyId.':available_train_paths'),true);
 
         $selectedPath = collect($availableTrainPaths)->firstWhere('id_path', $selectedPathId);
+        dump($selectedPath);
 
         if (!$selectedPath) {
             return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'This path is not available to lay trains.');
@@ -297,11 +286,6 @@ class GameController extends Controller
         $playerWagonCardsByColor = collect($playerWagonCards)->where('colour', $selectedPathColor)->count();
         $playerWagonCardsLocomotive = collect($playerWagonCards)->whereNull('colour')->count();
 
-        $azeaz = collect($playerWagonCards);
-
-        dump($azeaz);
-
-
         if($playerWagonCardsByColor + $playerWagonCardsLocomotive >= $selectedPath['length']){
             $cardsToRemove = $selectedPath['length'];
             $playerWagonCards = collect($playerWagonCards)->filter(function ($wagonCard) use ($selectedPathColor, &$cardsToRemove) {
@@ -313,14 +297,55 @@ class GameController extends Controller
             })->values()->toArray();
 
             dump($playerWagonCards);
-            dd();
+            $playerLayedTrainPaths = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':layed_train_paths'),true);
+            if(!$playerLayedTrainPaths){
+                $playerLayedTrainPaths = [];
+            }
+            $playerLayedTrainPaths[] = $selectedPath;
             Redis::set('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':wagon_cards', json_encode($playerWagonCards));
+            Redis::set('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':layed_train_paths', json_encode($playerLayedTrainPaths));
+
+            $availableTrainPaths = collect($availableTrainPaths)->filter(function ($trainPath) use ($selectedPathId) {
+                return $trainPath['id_path'] != $selectedPathId;
+            })->values()->toArray();
+
+            Redis::set('lobby:'.$lobbyId.':available_train_paths', json_encode($availableTrainPaths));
+
+            $this->nextTurnOthers($lobbyId, auth()->user()->id_user);
+
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
         }
         else{
-            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'You do not have enough wagons of the right color to lay trains on this path.');
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'You do not have enough locomotives or wagons of the right color to lay trains on this path.');
         }
         
-        Redis::srem('lobby:'.$lobbyId.':available_train_paths', $selectedPath->toArray());
-        
+    }
+
+    public function nextTurnTrainCard($lobbyId, $userId){
+        $turn_number = Redis::get('lobby:'.$lobbyId.':turn_number');
+        if ($turn_number == 0) {
+            Redis::set('lobby:'.$lobbyId.':turn_number', 1);
+        } else {
+            Redis::set('lobby:'.$lobbyId.':turn_number', 0);
+            $players = Lobby::findOrFail($lobbyId)->getUsers();
+            $currentTurnIndex = array_search($userId, $players->pluck('id_user')->toArray());
+            $nextTurnIndex = ($currentTurnIndex + 1) % count($players);
+            Redis::set('lobby:'.$lobbyId.':current_turn', $players[$nextTurnIndex]->id_user);
+            broadcast(new TurnChangedEvent($lobbyId))->toOthers();
+        }
+    }
+
+    public function nextTurnOthers($lobbyId,$userId){
+        $players = Lobby::findOrFail($lobbyId)->getUsers();
+        $currentTurnIndex = array_search($userId, $players->pluck('id_user')->toArray());
+        $nextTurnIndex = ($currentTurnIndex + 1) % count($players);
+        Redis::set('lobby:'.$lobbyId.':current_turn', $players[$nextTurnIndex]->id_user);
+        broadcast(new TurnChangedEvent($lobbyId))->toOthers();
+    }
+
+    public function endGame($lobbyId){
+        $lobby = Lobby::findOrFail($lobbyId);
+        $lobby->has_ended = true;
+        $lobby->save();
     }
 }
