@@ -34,6 +34,9 @@ $(document).ready(function() {
                     return '<a href="/game/stats/' + data.id_lobby + '" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>';
                 }
             }
+        ],
+        columnDefs: [
+            { targets: [-1, -2], orderable: false } // Les deux dernières colonnes ne peuvent pas être triées
         ]
             
         
