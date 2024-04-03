@@ -92,18 +92,32 @@ class PathSeeder extends Seeder
             ['city_1' => 'Denver', 'city_2' => 'Santa Fe','length'=>2, 'colour' => 'grey'],
             ['city_1' => 'Denver', 'city_2' => 'Phoenix','length'=>5, 'colour' => 'white'],
             ['city_1' => 'Denver', 'city_2' => 'Salt Lake City','length'=>3, 'colour' => 'red'],
-            ['city_1' => 'Denver', 'city_2' => 'Salt Lake City','length'=>4, 'colour' => 'yellow'],
-            
-           
-
-
-
-           
+            ['city_1' => 'Denver', 'city_2' => 'Salt Lake City','length'=>3, 'colour' => 'yellow'],
+            ['city_1' => 'San Francisco', 'city_2' => 'Salt Lake City','length'=>5, 'colour' => 'orange'],
+            ['city_1' => 'San Francisco', 'city_2' => 'Salt Lake City','length'=>5, 'colour' => 'white'],
+            ['city_1' => 'San Francisco', 'city_2' => 'Portland','length'=>5, 'colour' => 'pink'],
+            ['city_1' => 'San Francisco', 'city_2' => 'Portland','length'=>5, 'colour' => 'green'],
+            ['city_1' => 'San Francisco', 'city_2' => 'Los Angeles','length'=>3, 'colour' => 'pink'],
+            ['city_1' => 'San Francisco', 'city_2' => 'Los Angeles','length'=>3, 'colour' => 'yellow'],
+            ['city_1' => 'El Paso', 'city_2' => 'Dallas','length'=>4, 'colour' => 'red'],
+            ['city_1' => 'El Paso', 'city_2' => 'Los Angeles','length'=>6, 'colour' => 'black'],
+            ['city_1' => 'El Paso', 'city_2' => 'Phoenix','length'=>3, 'colour' => 'grey'],
+            ['city_1' => 'El Paso', 'city_2' => 'Santa Fe','length'=>2, 'colour' => 'grey'],
+            ['city_1' => 'Phoenix', 'city_2' => 'Santa Fe','length'=>3, 'colour' => 'grey'],
+            ['city_1' => 'Phoenix', 'city_2' => 'Los Angeles','length'=>3, 'colour' => 'grey'],
+            ['city_1' => 'Las Vegas', 'city_2' => 'Los Angeles','length'=>2, 'colour' => 'grey'],
+            ['city_1' => 'Las Vegas', 'city_2' => 'Salt Lake City','length'=>3, 'colour' => 'orange'],
+            ['city_1' => 'Portland', 'city_2' => 'Seattle','length'=>1, 'colour' => 'grey'],
+            ['city_1' => 'Portland', 'city_2' => 'Seattle','length'=>1, 'colour' => 'grey'],
+            ['city_1' => 'Portland', 'city_2' => 'Salt Lake City','length'=>6, 'colour' => 'blue'],
+            ['city_1' => 'Vancouver', 'city_2' => 'Seattle','length'=>1, 'colour' => 'grey'],
+            ['city_1' => 'Vancouver', 'city_2' => 'Seattle','length'=>1, 'colour' => 'grey'],
+            ['city_1' => 'Calgary', 'city_2' => 'Seattle','length'=>4, 'colour' => 'grey'],
+            ['city_1' => 'Calgary', 'city_2' => 'Vancouver','length'=>3, 'colour' => 'grey'],
+            ['city_1' => 'Calgary', 'city_2' => 'Winnipeg','length'=>6, 'colour' => 'white'],           
         ];
         foreach ($pathCards as $pathCard) {
             Path::create($pathCard);
-        }
-
-        
+        }        
     }
 }
