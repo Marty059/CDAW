@@ -28,7 +28,7 @@ class GameController extends Controller
     $lobby = Lobby::findOrFail($lobbyId);
 
     if (!$lobby->has_ended) {
-        abort(404, 'La partie n\'est pas encore terminée.');
+        abort(404, 'The game doesn\'t exist or has ended yet.');
     }
 
     $players = $lobby->getUsersByRank();
