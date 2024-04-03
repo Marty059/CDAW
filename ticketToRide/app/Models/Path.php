@@ -23,8 +23,7 @@ class Path extends Model
         'city_1',
         'city_2',
         'length',
-        'colour_1',
-        'colour_2',
+        'color',
     ];
 
     public $timestamps = false;
