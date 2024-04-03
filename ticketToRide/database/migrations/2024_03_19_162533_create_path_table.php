@@ -18,7 +18,7 @@ class CreatePathTable extends Migration
             $table->string('city_1');
             $table->string('city_2');
             $table->integer('length');
-            $table->string('color')->default(null)->nullable(true);
+            $table->string('colour')->default(null)->nullable(true);
         });
     }
 

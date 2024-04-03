@@ -19,16 +19,6 @@ class LeaderboardController extends Controller
     
     public function showView()
     {
-        // $users = User::all();
-        // $classement = [];
-        // foreach ($users as $user) {
-        //     $classement= $user->meilleurScore();
-        // }
-        //$leader = User::classementJoueurs();
-        $classement = User::classementJoueurs();
-        // dd($classement);
-
-        //return view('leaderboard.show', compact('classement'));
         return view('leaderboard.show');
 
 
