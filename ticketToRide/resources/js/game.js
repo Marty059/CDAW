@@ -19,5 +19,18 @@ window.Echo.join(`lobby.${id_lobby}`)
     window.location.reload();
 })
 
-
+// window.addEventListener('load', function() {
+//     setTimeout(function() {
+//         const lobbyId = window.location.href.split('/').pop();
+//         const yourTurnDiv = document.querySelector('.your-turn');
+//         if (yourTurnDiv) {
+//             fetch(`/game/passTurn/${lobbyId}`, {
+//                 method: 'POST',
+//                 headers: {
+//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//                 }
+//             });
+//         }
+//     }, 15000); // 1 minute = 60,000 milliseconds
+// });
 

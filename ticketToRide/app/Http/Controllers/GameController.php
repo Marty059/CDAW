@@ -71,7 +71,13 @@ class GameController extends Controller
     }
 
     public function initializeGame($lobbyId){
-        Redis::flushdb();
+        $this->GameIsOn($lobbyId);
+
+        if(auth()->user()->id_user != Lobby::findOrFail($lobbyId)->id_createur){
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'You are not the owner of this lobby.');
+        }
+
+        Redis::flushdb(); // A enlever quand c'est fonctionnel
         $lobby = Lobby::findOrFail($lobbyId);
         $players = $lobby->getUsers();
         $destinationCards = Destination::all();
@@ -142,12 +148,7 @@ class GameController extends Controller
     }
 
     public function pickRandomTrainCard($lobbyId, $userId){
-
-        $currentTurn = Redis::get('lobby:'.$lobbyId.':current_turn');
-
-        if ($currentTurn != $userId) {
-            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'It is not your turn to play.');
-        }
+        $this->checkPermission($lobbyId);
 
         $availableWagonCardIds = Redis::smembers('lobby:'.$lobbyId.':available_wagon_card_ids');
 
@@ -174,11 +175,8 @@ class GameController extends Controller
     }
 
     public function pickDestinationCards($lobbyId,$userId){
-        $currentTurn = Redis::get('lobby:'.$lobbyId.':current_turn');
+        $this->checkPermission($lobbyId);
 
-        if ($currentTurn != $userId) {
-            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'It is not your turn to play.');
-        }
         $availableDestinationCardIds = Redis::smembers('lobby:'.$lobbyId.':available_destination_card_ids');
         $turn_number = Redis::get('lobby:'.$lobbyId.':turn_number');
 
@@ -214,16 +212,11 @@ class GameController extends Controller
     }
 
     public function pickTrainCard($lobbyId,$userId, $wagonId){
-        $currentTurn = Redis::get('lobby:'.$lobbyId.':current_turn');
-        
+        $this->checkPermission($lobbyId);
 
-        if ($currentTurn != $userId) {
-            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'It is not your turn to play.');
-        }
+        $pickableWagonCardIds = Redis::smembers('lobby:'.$lobbyId.':pickable_wagon_card_ids');
 
-        $availableWagonCardIds = Redis::smembers('lobby:'.$lobbyId.':pickable_wagon_card_ids');
-
-        if (!in_array($wagonId, $availableWagonCardIds)) {
+        if (!in_array($wagonId, $pickableWagonCardIds)) {
             return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'This wagon card is not available to pick.');
         }
 
@@ -254,13 +247,8 @@ class GameController extends Controller
     }
 
     public function placeTrainPath(Request $request, $lobbyId){
-
-        $currentTurn = Redis::get('lobby:'.$lobbyId.':current_turn');
-
-        if ($currentTurn != auth()->user()->id_user) {
-            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'It is not your turn to play.');
-        }
-
+        $this->checkPermission($lobbyId);
+        
         $turn_number = Redis::get('lobby:'.$lobbyId.':turn_number');
 
         if($turn_number == 1){
@@ -272,7 +260,6 @@ class GameController extends Controller
         $availableTrainPaths = json_decode(Redis::get('lobby:'.$lobbyId.':available_train_paths'),true);
 
         $selectedPath = collect($availableTrainPaths)->firstWhere('id_path', $selectedPathId);
-        dump($selectedPath);
 
         if (!$selectedPath) {
             return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'This path is not available to lay trains.');
@@ -296,7 +283,6 @@ class GameController extends Controller
                 return true; // Keep this card
             })->values()->toArray();
 
-            dump($playerWagonCards);
             $playerLayedTrainPaths = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':layed_train_paths'),true);
             if(!$playerLayedTrainPaths){
                 $playerLayedTrainPaths = [];
@@ -347,5 +333,41 @@ class GameController extends Controller
         $lobby = Lobby::findOrFail($lobbyId);
         $lobby->has_ended = true;
         $lobby->save();
+    }
+
+    public function GameIsOn($lobbyId){
+        $lobby = Lobby::findOrFail($lobbyId);
+        if(!($lobby->has_started) || $lobby->has_ended){
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
+        }
+    }
+    public function playerInGame($lobbyId){
+        $lobby = Lobby::findOrFail($lobbyId);
+        $users = $lobby->getUsers();
+        if($users->pluck('id_user')->contains(auth()->user()->id_user)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function checkPermission($lobbyId){
+        $this->GameIsOn($lobbyId);
+        $this->playerInGame($lobbyId);
+
+        $currentTurn = Redis::get('lobby:'.$lobbyId.':current_turn');
+
+        if ($currentTurn != auth()->user()->id_user) {
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'It is not your turn to play.');
+        }
+    }
+
+    public function passTurn($lobbyId){
+        $this->checkPermission($lobbyId);
+
+        $this->nextTurnOthers($lobbyId, auth()->user()->id_user);
+
+        return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
     }
 }

@@ -48,7 +48,7 @@ $available_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':availa
 
 
 @else
-    <div class="your-turn">It's not your turn!</div>
+    <div>It's not your turn!</div>
 @endif
 @if ($lobby->id_createur === auth()->user()->id_user)
 <form action="{{route('game.initialize', ['lobbyId' => $lobby->id_lobby])}}" method="POST">
