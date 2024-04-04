@@ -12,18 +12,21 @@
             @php
                 $playerTrainPath = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.$player->id_user.':layed_train_paths'));
             @endphp
-            <ul>
 
+            <ul class="list-group">
                 @if (!$playerTrainPath)
-                    <li>No train paths layed</li>
+                    <li class="list-group-item">No train paths laid</li>
                 @else  
-                @foreach ($playerTrainPath as $trainPath)
-                    <li>{{ $trainPath->city_1 }} to {{ $trainPath->city_2 }} : {{ $trainPath->length }} 
-                        @if (!$trainPath->colour) (Any) 
-                        @else ({{ $trainPath->colour }})
-                        @endif
-                    </li>
-                @endforeach
+                    @foreach ($playerTrainPath as $trainPath)
+                        <li class="list-group-item">
+                            {{ $trainPath->city_1 }} to {{ $trainPath->city_2 }} : {{ $trainPath->length }} 
+                            @if (!$trainPath->colour) 
+                                (Any) 
+                            @else 
+                                ({{ $trainPath->colour }})
+                            @endif
+                        </li>
+                    @endforeach
                 @endif
             </ul>
         </div>

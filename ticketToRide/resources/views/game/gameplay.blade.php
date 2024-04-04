@@ -27,7 +27,7 @@ $available_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':availa
                     </form> -->
                     <form action="{{ route('game.endGame', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-primary mb-3">End Game</button>
+                        <button type="submit" class="btn btn-danger mb-3">End Game</button>
                     </form>
                 @endif
             @if($turn_id==auth()->user()->id_user)
