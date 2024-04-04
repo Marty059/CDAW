@@ -17,7 +17,7 @@ if ($cardsToDraw) {
     $cardsToPick = array_slice($cardsToDraw, 0, 5);
 
     // Map each card ID to its details
-    $cardsToPick = array_map(function ($card) {
+    $cardsToPick = array_map(function ($card) use ($wagonColorImages) {
         $wagon = Wagon::find($card);
         // Check if wagon with the given ID exists
         if ($wagon && isset($wagonColorImages[$wagon->colour])) {
@@ -48,9 +48,9 @@ if ($cardsToDraw) {
                             <img src="{{ asset($card['image']) }}" alt="{{ $card['colour'] }}" class="img-fluid mb-2" style="max-height: 100px;">
                         @endif
                         <p class="card-text">{{ $card['colour'] ?? 'Locomotive' }}</p>
-                        <form action="#" method="POST">
+                        <form action="{{ route('game.pickTrainCard', ['lobbyId' => $lobbyId, 'userId' => $authPlayerId, 'wagonId' => $card['id_wagon']]) }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-primary" disabled>Pick</button>
+                            <button type="submit" class="btn btn-primary">Pick</button>
                         </form>
                     </div>
                 </div>
