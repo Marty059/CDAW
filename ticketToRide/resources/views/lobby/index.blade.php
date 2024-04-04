@@ -20,10 +20,13 @@
                     </form>
                     <ul class="list-group">
                         @foreach($lobbies as $lobby)
-                        <li class="list-group-item">
-                            <a href="{{ route('show', ['lobby_id' => $lobby->id_lobby]) }}" class="text-decoration-none">
-                                {{$lobby->name}}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a class="text-decoration-none" href="{{ route('show', ['lobby_id' => $lobby->id_lobby]) }}">
+                                {{$lobby->name}} {{$lobby->is_private ? ' (Private)' : ''}}
                             </a>
+                            <div class="text-end align-self-center">
+                                Players: {{$lobby->getUsers()->count()}}/{{$lobby->max_players}}
+                            </div>
                         </li>
                         @endforeach
                     </ul>

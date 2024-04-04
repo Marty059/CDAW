@@ -29,7 +29,6 @@ class LeaderboardController extends Controller
     {
         $classement = User::classementJoueurs();
 
-        // Ajouter une propriété 'is_current_user' à chaque utilisateur dans le classement
         foreach ($classement as $user) {
             $user->is_current_user = $user->id_user === auth()->user()->id_user;
         }

@@ -66,7 +66,7 @@ class GameController extends Controller
             return redirect()->route('welcome')->with('error', 'You are not the owner of this lobby.');
         }
         broadcast(new GameLaunchedEvent($lobbyId))->toOthers();
-        //$this->initializeGame($lobbyId);      // A remettre quand c'est fonctionnel
+        $this->initializeGame($lobbyId);
         return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId]);
     }
 
@@ -76,8 +76,7 @@ class GameController extends Controller
         if(auth()->user()->id_user != Lobby::findOrFail($lobbyId)->id_createur){
             return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'You are not the owner of this lobby.');
         }
-
-        Redis::flushdb(); // A enlever quand c'est fonctionnel
+ 
         $lobby = Lobby::findOrFail($lobbyId);
         $players = $lobby->getUsers();
         $destinationCards = Destination::all();
@@ -95,10 +94,10 @@ class GameController extends Controller
 
         $randomWagonCardIds = Redis::srandmember('lobby:'.$lobbyId.':available_wagon_card_ids', 5);
 
-        // Remove the picked card IDs from available_wagon_card_ids
+        
         Redis::srem('lobby:'.$lobbyId.':available_wagon_card_ids', $randomWagonCardIds);
 
-        // Add the picked card IDs to pickable_wagon_card_ids
+        
         Redis::del('lobby:'.$lobbyId.':pickable_wagon_card_ids');
         Redis::sadd('lobby:'.$lobbyId.':pickable_wagon_card_ids', $randomWagonCardIds);
 
@@ -115,29 +114,24 @@ class GameController extends Controller
             $playerWagonCards = Wagon::whereIn('id_wagon', $availableWagonCardIds)->get()->shuffle()->take(4);
             $playerDestinationCards = Destination::whereIn('id_destination', $availableDestinationCardIds)->get()->shuffle()->take(3);
 
-            // Convert wagon card data to array for caching
+            
             $playerWagonCardsData = $playerWagonCards->map(function ($wagonCard) {
                 return $wagonCard->toArray();
             })->toArray();
     
-            // Convert destination card data to array for caching
             $playerDestinationCardsData = $playerDestinationCards->map(function ($destinationCard) {
                 return $destinationCard->toArray();
             })->toArray();
     
-            // Stock the wagon cards in the Redis cache of the player
             Redis::del('lobby:'.$lobbyId.':player:'.$player->id_user.':wagon_cards');
             Redis::del('lobby:'.$lobbyId.':player:'.$player->id_user.':destination_cards');
             Redis::set('lobby:'.$lobbyId.':player:'.$player->id_user.':wagon_cards', json_encode($playerWagonCardsData));
             Redis::set('lobby:'.$lobbyId.':player:'.$player->id_user.':destination_cards', json_encode($playerDestinationCardsData));
     
-            // Remove the picked wagon card IDs from available_wagon_card_ids
             Redis::srem('lobby:'.$lobbyId.':available_wagon_card_ids', $playerWagonCards->pluck('id_wagon')->toArray());
     
-            // Remove the picked destination card IDs from available_destination_card_ids
             Redis::srem('lobby:'.$lobbyId.':available_destination_card_ids', $playerDestinationCards->pluck('id_destination')->toArray());
     
-            // Add the first player's turn to the cache
             Redis::set('lobby:'.$lobbyId.':current_turn', $players[0]->id_user);
             Redis::set('lobby:'.$lobbyId.':turn_number', 0);
 
@@ -268,7 +262,6 @@ class GameController extends Controller
         $playerWagonCards = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':wagon_cards'),true);
 
 
-        // Check if the player has enough wagons of the color of the paths to lay trains
         $selectedPathColor = $selectedPath['colour'] ?? null;
         if($selectedPathColor != null){
             $playerWagonCardsByColor = collect($playerWagonCards)->where('colour', $selectedPathColor)->count();
@@ -279,9 +272,9 @@ class GameController extends Controller
                 $playerWagonCards = collect($playerWagonCards)->filter(function ($wagonCard) use ($selectedPathColor, &$cardsToRemove, $playerWagonCardsByColor, $selectedPathLength) {
                     if (($wagonCard['colour'] == $selectedPathColor||($playerWagonCardsByColor<=$selectedPathLength&& !$wagonCard['colour'])) && $cardsToRemove > 0) {
                         $cardsToRemove--;
-                        return false; // Remove this card
+                        return false; 
                     }
-                    return true; // Keep this card
+                    return true; 
                 })->values()->toArray();
     
                 $playerLayedTrainPaths = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':layed_train_paths'),true);
@@ -307,7 +300,6 @@ class GameController extends Controller
             }
         }
         else{
-        // Find the color with the least number of cards
         $colors = collect($playerWagonCards)->pluck('colour')->unique();
         $colorsWithCards = $colors->filter(function ($color) use ($playerWagonCards, $selectedPath) {
             $cardsOfColor = collect($playerWagonCards)->where('colour', $color)->count();
@@ -318,7 +310,6 @@ class GameController extends Controller
             return collect($playerWagonCards)->where('colour', $color)->count() - collect($playerWagonCards)->whereNull('colour')->count();
         })->first();
 
-        // Use the color with the least cards to put on the path
         $playerWagonCardsByColor = collect($playerWagonCards)->where('colour', $selectedPathColor)->count();
 
         if($playerWagonCardsByColor <= $selectedPath['length']){
@@ -327,15 +318,15 @@ class GameController extends Controller
         else {
             $playerWagonCardsLocomotive = 0;
         }
-        
+        // On va utiliser une couleur que le joueur a le moins tout en utilisant le moins de locomotive possible
         if($playerWagonCardsByColor + $playerWagonCardsLocomotive>= $selectedPath['length']){
             $cardsToRemove = $selectedPath['length'];
             $playerWagonCards = collect($playerWagonCards)->filter(function ($wagonCard) use ($selectedPathColor, &$cardsToRemove, $playerWagonCardsLocomotive) {
                 if (($wagonCard['colour'] == $selectedPathColor ||($playerWagonCardsLocomotive!=0 && !$wagonCard['colour'])) && $cardsToRemove > 0) {
                     $cardsToRemove--;
-                    return false; // Remove this card
+                    return false; 
                 }
-                return true; // Keep this card
+                return true; 
             })->values()->toArray();
 
             $playerLayedTrainPaths = json_decode(Redis::get('lobby:'.$lobbyId.':player:'.auth()->user()->id_user.':layed_train_paths'),true);
@@ -429,7 +420,7 @@ class GameController extends Controller
 
         $this->calculateScore($lobbyId);
 
-        sleep(1); // Delay for 2 seconds
+        sleep(1); 
         broadcast(new TurnChangedEvent($lobbyId))->toOthers();
         return redirect()->route('game.show', ['lobbyId' => $lobbyId]);
     }
@@ -471,7 +462,7 @@ class GameController extends Controller
             if ($jouer) {
                 $jouer->classement = count($playersScore) - collect($playersScore)->filter(function ($score) use ($playerScore) {
                     return $score < $playerScore;
-                })->count() ; // Adding 1 to start the ranking from 1 instead of 0
+                })->count() ; 
                 $jouer->save();
             }
         }
@@ -491,7 +482,6 @@ class GameController extends Controller
             $city1 = $destinationCard['city_1'];
             $city2 = $destinationCard['city_2'];
     
-            // Utiliser DFS pour vérifier s'il existe un chemin entre city1 et city2
             $visited = [];
             if ($this->DFS($city1, $city2, $layedPaths, $visited)) {
                 $playerScore += $destinationCard['points'];
@@ -503,29 +493,23 @@ class GameController extends Controller
     }
     
     private function DFS($currentCity, $targetCity, $layedPaths, &$visited) {
-        // Marquer la ville courante comme visitée
         $visited[$currentCity] = true;
     
-        // Vérifier si la ville courante est la ville cible
         if ($currentCity == $targetCity) {
             return true;
         }
     
-        // Parcourir les chemins posés depuis la ville courante
         foreach ($layedPaths as $layedPath) {
             if ($layedPath['city_1'] == $currentCity && !isset($visited[$layedPath['city_2']])) {
-                // Si le chemin relie la ville courante à une ville non visitée, faire DFS à partir de cette ville
                 if ($this->DFS($layedPath['city_2'], $targetCity, $layedPaths, $visited)) {
                     return true;
                 }
             } elseif ($layedPath['city_2'] == $currentCity && !isset($visited[$layedPath['city_1']])) {
-                // Si le chemin relie la ville courante à une ville non visitée, faire DFS à partir de cette ville
                 if ($this->DFS($layedPath['city_1'], $targetCity, $layedPaths, $visited)) {
                     return true;
                 }
             }
         }
-        // Aucun chemin trouvé pour atteindre la ville cible
         return false;
     }
 }

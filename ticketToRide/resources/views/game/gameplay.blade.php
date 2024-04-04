@@ -15,19 +15,19 @@ $available_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':availa
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 border-right"> <!-- This column takes 2/3 of the screen -->
+        <div class="col-md-6 border-right"> 
             @include('game.map')
             @include('game.player-cards', ['lobbyId' => $lobby->id_lobby])
         </div>
-        <div class="col-md-2 "> <!-- This column takes 1/3 of the screen -->
+        <div class="col-md-2 "> 
             @if ($lobby->id_createur === auth()->user()->id_user)
-                    <form action="{{route('game.initialize', ['lobbyId' => $lobby->id_lobby])}}" method="POST">
+                    <!-- <form action="{{route('game.initialize', ['lobbyId' => $lobby->id_lobby])}}" method="POST">
                         @csrf
                         <button type="submit">Initialize Game</button>
-                    </form>
+                    </form> -->
                     <form action="{{ route('game.endGame', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
                         @csrf
-                        <button type="submit">End Game</button>
+                        <button type="submit" class="btn btn-primary mb-3">End Game</button>
                     </form>
                 @endif
             @if($turn_id==auth()->user()->id_user)

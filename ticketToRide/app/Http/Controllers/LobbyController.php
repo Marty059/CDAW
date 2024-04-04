@@ -100,7 +100,6 @@ public function store(Request $request){
 }
 public function join(Request $request, $lobby_id)
 {
-    // Récupérer le lobby en fonction de l'ID
     $lobby = Lobby::findOrFail($lobby_id);
 
     if($lobby->has_started){

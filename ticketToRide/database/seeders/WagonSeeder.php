@@ -14,7 +14,6 @@ class WagonSeeder extends Seeder
      */
     public function run()
     {
-        // Define the number of train cards for each color
         $trainCardsCount = [
             'Black' => 12,
             'Blue' => 12,
@@ -24,10 +23,9 @@ class WagonSeeder extends Seeder
             'Red' => 12,
             'White' => 12,
             'Yellow' => 12,
-            'Null' => 14, // Number of locomotives
+            'Null' => 14, 
         ];
 
-        // Populate the wagon table with train cards
         foreach ($trainCardsCount as $color => $count) {
             if ($color === 'Null') {
                 $color = null;

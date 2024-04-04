@@ -3,36 +3,61 @@
 ## Description
 Ce projet est une application de jeu en ligne basée sur Ticket sur Ride. Les joueurs peuvent jouer en ligne, consulter leur profil, rejoindre des parties et interagir avec leurs amis.
 
-## Fonctionnalités
+# Guide d'installation
 
-- **Le jeu lui-même**:
-    - Piocher et choisir ses cartes destinations.
-    - Choix entre piocher les cartes visibles ou cachées.
-    - Poser ses trains.
+Pour démarrer avec ce projet, assurez-vous d'avoir PHP, Composer, Redis, Node.js et npm installés sur votre système. Vous pouvez suivre les étapes ci-dessous pour installer les dépendances nécessaires :
 
-## Barre de tâches
+### Installer PHP et Composer
+```bash
+sudo apt update
+sudo apt install php php-cli php-mbstring unzip
+sudo apt install composer
+```
 
-- **"Jouer"** : Affiche la liste des lobbies à rejoindre et un bouton pour créer un nouveau lobby.
-- **"Profil"** : Consultation de l'historique des parties, du taux de victoire moyen et des points moyens.
-- **"Règles"** : Accès aux règles du jeu.
-- **"Amis"** (optionnel) : Gestion de la liste d'amis.
-- **"Leaderboard"** : Affichage des 100 meilleurs joueurs selon le nombre de victoires et le taux de victoire le plus élevé.
+### Ensuite, installez Composer :
 
-## Pages
+```bash
+sudo apt install composer
+```
 
-- **Jeu** : Affichage du plateau, des cartes en main et des cartes à piocher.
-- **Login** : Saisie du nom d'utilisateur et du mot de passe.
-- **Accueil** (en mode non-connecté) : Deux boutons pour créer un compte ou se connecter.
-- **Gestion des joueurs** : compte admin
+### Installer Laravel Framework 8.83.27
 
-## Installation
-TODO
+### Installer MySql
 
-## Technologies utilisées
-TODO
-- Framework Frontend:
-- Backend:
-- Base de données: 
+```bash
+sudo apt install mysql-server
+```
+
+### Installez Redis :
+
+```bash
+sudo apt install redis-server
+```
+
+### Exécutez la commande suivante pour installer Node.js et npm :
+
+```bash
+sudo apt install nodejs npm
+```
+
+### Pour installer Laravel Echo Server qui sert de websocket :
+
+```bash
+npm install -g laravel-echo-server
+```
+
+### Pour lancer le serveur websocket (de base sur le port 6001)
+
+```bash
+laravel-echo-server start
+```
+
+### Pour lancer le serveur web (de base sur le port 8000)
+
+```bash
+php artisan serve
+```
+
 
 ## Contributeurs
 - Maxime GRENET
