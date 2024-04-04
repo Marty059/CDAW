@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $.fn.dataTable.moment('YYYY/M/D');
     $('#historique-table').DataTable({
         ajax:{
             url: baseUrl + '/getHistorique' + '/' + userId,

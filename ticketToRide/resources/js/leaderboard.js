@@ -28,8 +28,9 @@ $(document).ready(function() {
         ],
          order: [[0, 'asc']], // Tri par ranking par défaut
          "columnDefs": [
-        { "type": "num", "targets": [0] },
-        { "type": "num", "targets": [2]} // Remplacez 0 par l'index de la colonne que vous souhaitez ordonner comme un nombre
+        { "type": "num", "targets": [0,2] },
+        { targets: [3], orderable: false } // Les deux dernières colonnes ne peuvent pas être triées
+         // Remplacez 0 par l'index de la colonne que vous souhaitez ordonner comme un nombre
     ],
     lengthMenu: [[10, 25, 50, -1], [10, 25, 50,  "All"]], // Ajouter l'option "Tous"
         pageLength: 10 

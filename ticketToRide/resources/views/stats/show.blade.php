@@ -50,6 +50,8 @@
 @section('scripts')
 <script src="{{ asset('assets/jquery-3.6.0.min.js') }}"></script>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.10.25/sorting/datetime-moment.js"></script>
 <script> var userId = {{$user->id_user}}; 
 var baseUrl = <?php echo json_encode(url('/')); ?>;
 </script>
