@@ -14,7 +14,7 @@ $wagonColorImages = [
     'Yellow' => 'img/Yellow.jpeg',
     'Orange' => 'img/Orange.jpeg',
     'Pink' => 'img/Pink.jpeg',
-    null => 'img/Locomotive.jpeg'
+    null => 'img/Locomotive.png'
 ];
 
 // Initialize $cardsToPick as an empty array if $cardsToDraw is null
@@ -46,7 +46,7 @@ if ($cardsToDraw) {
 
 <div class="container">
     <h3 class="mt-5">Train Cards to Draw</h3>
-    <div class="row mt-3">
+    <div class="row mt-3 d-flex flex-column">
         @foreach($cardsToPick as $card)
             <div class="col-md-2 mb-3">
                 <div class="card">

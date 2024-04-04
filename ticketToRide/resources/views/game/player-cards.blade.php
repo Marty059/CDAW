@@ -21,24 +21,59 @@ $destinationCards = json_decode($destinationCardsData, true);
 if ($destinationCards === null) {
     $destinationCards = []; // Set it to an empty array if it's null
 }
+
+$wagonColorImages = [
+    'Black' => 'img/Black.jpeg', 
+    'White' => 'img/White.jpeg',
+    'Red' => 'img/Red.jpeg',
+    'Blue' => 'img/Blue.jpeg',
+    'Green' => 'img/Green.jpeg',
+    'Yellow' => 'img/Yellow.jpeg',
+    'Orange' => 'img/Orange.jpeg',
+    'Pink' => 'img/Pink.jpeg',
+    null => 'img/Locomotive.png'
+];
 @endphp
 
-<div>
-    <h3>Your Wagon Cards</h3>
-    <ul>
-        @foreach($wagonCards as $card)
-            @if ($card['colour'] === null)
-                <li>Locomotive</li>
-            @else
-                <li>{{ $card['colour'] }}</li>
-            @endif
-        @endforeach
-    </ul>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="mt-md-0 mt-4">Your Destination Cards</h3>
+            <ul class="list-group">
+                @foreach($destinationCards as $card)
+                    <li class="list-group-item">{{ $card['city_1'] }} to {{ $card['city_2'] }} ({{$card['points']}})</li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>Your Wagon Cards</h3>
+            <div class="row">
+                @foreach($wagonCards as $card)
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                @if ($card['colour'] === null)
+                                    <p>Locomotive</p>
+                                @else
+                                    <p>{{ $card['colour'] }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
 
-    <h3>Your Destination Cards</h3>
-    <ul>
-        @foreach($destinationCards as $card)
-            <li>{{ $card['city_1'] }} to {{ $card['city_2'] }}</li>
-        @endforeach
-    </ul>
+        
+    </div>
 </div>
+
+<style>
+    .list-group {
+        display: inline-block;
+        width: auto;
+        max-width: 100%;
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+</style>
+
