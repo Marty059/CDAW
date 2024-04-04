@@ -60,10 +60,10 @@ class GameController extends Controller
         $lobby->has_started = true;
         $lobby->save();
         if(auth()->user()->id_user != $lobby->id_createur){
-            return redirect()->route('welcome')->with('error', 'Vous n\'êtes pas le propriétaire de ce lobby.');
+            return redirect()->route('welcome')->with('error', 'You are not the owner of this lobby.');
         }
         if($lobby->has_started){
-            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'La partie a déjà commencé.');
+            return redirect()->route('game.showGameplay', ['lobbyId' => $lobbyId])->with('error', 'This game has already started.');
         }
         broadcast(new GameLaunchedEvent($lobbyId))->toOthers();
         //$this->initializeGame($lobbyId);      // A remettre quand c'est fonctionnel

@@ -78,3 +78,7 @@ Route::post('/getLeaderboard', [LeaderboardController::class, 'getLeaderboard'])
 Route::get('/test', function(){
     return view('game2.cards-to-draw');
 })->name('test');
+
+Route::get('/test2', function(){
+    return view('game2.player-cards');
+})->name('test2');

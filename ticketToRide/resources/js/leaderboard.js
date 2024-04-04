@@ -22,7 +22,7 @@ $(document).ready(function() {
             { 
                 data: null,
                 render: function(data, type, row) {
-                    return '<a href="/profile/' + data.id_user + '" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>';
+                    return '<div style="text-align: center;"><a href="/profile/' + data.id_user + '" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>';
                 }
             },
         ],
@@ -30,6 +30,8 @@ $(document).ready(function() {
          "columnDefs": [
         { "type": "num", "targets": [0] },
         { "type": "num", "targets": [2]} // Remplacez 0 par l'index de la colonne que vous souhaitez ordonner comme un nombre
-    ]
+    ],
+    lengthMenu: [[10, 25, 50, -1], [10, 25, 50,  "All"]], // Ajouter l'option "Tous"
+        pageLength: 10 
     });
 });
