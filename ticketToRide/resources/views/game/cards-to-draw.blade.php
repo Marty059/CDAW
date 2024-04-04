@@ -8,6 +8,13 @@ $authPlayerId = auth()->user()->id_user;
 $wagonColorImages = [
     'Black' => 'img/Black.jpeg', 
     'White' => 'img/White.jpeg',
+    'Red' => 'img/Red.jpeg',
+    'Blue' => 'img/Blue.jpeg',
+    'Green' => 'img/Green.jpeg',
+    'Yellow' => 'img/Yellow.jpeg',
+    'Orange' => 'img/Orange.jpeg',
+    'Pink' => 'img/Pink.jpeg',
+    null => 'img/Locomotive.jpeg'
 ];
 
 // Initialize $cardsToPick as an empty array if $cardsToDraw is null
