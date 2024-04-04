@@ -13,8 +13,9 @@ $available_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':availa
 
 @section('content')
 
-<div class="turn"></div>
+
 @if($turn_id==auth()->user()->id_user)
+<div class="turn">
     <div class="your-turn">It's your turn!</div>
 
     <form action="{{ route('game.pickRandomTrainCard', ['lobbyId' => $lobby->id_lobby,'userId' => auth()->user()->id_user]) }}" method="POST">
@@ -44,11 +45,10 @@ $available_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':availa
             <button type="submit">Lay Train</button>
         </form>
     </div>
+</div>
     @endif
-
-
 @else
-    <div>It's not your turn!</div>
+<div class="turn">It's not your turn!</div>
 @endif
 @if ($lobby->id_createur === auth()->user()->id_user)
 <form action="{{route('game.initialize', ['lobbyId' => $lobby->id_lobby])}}" method="POST">
