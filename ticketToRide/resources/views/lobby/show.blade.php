@@ -85,5 +85,5 @@
 
 @section('scripts')
 <script> var id_lobby = {{ $lobby->id_lobby }};</script>
-<script src="{{ asset('js/game.js') }}"></script>
+<script src="{{ asset('js/lobby.js') }}"></script>
 @endsection

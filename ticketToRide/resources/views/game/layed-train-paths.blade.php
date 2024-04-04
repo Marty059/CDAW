@@ -16,8 +16,7 @@
 
                 @if (!$playerTrainPath)
                     <li>No train paths layed</li>
-                @else 
-                    <li>Train paths layed:</li>   
+                @else  
                 @foreach ($playerTrainPath as $trainPath)
                     <li>{{ $trainPath->city_1 }} to {{ $trainPath->city_2 }} : {{ $trainPath->length }} 
                         @if (!$trainPath->colour) (Any) 

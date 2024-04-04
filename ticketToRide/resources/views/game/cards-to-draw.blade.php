@@ -44,24 +44,37 @@ if ($cardsToDraw) {
 
 @endphp
 
-<div class="container">
-    <h3 class="mt-5">Train Cards to Draw</h3>
-    <div class="row mt-3 d-flex flex-column">
-        @foreach($cardsToPick as $card)
-            <div class="col-md-2 mb-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        @if(isset($card['image']))
-                            <img src="{{ asset($card['image']) }}" alt="{{ $card['colour'] }}" class="img-fluid mb-2" style="max-height: 100px;">
-                        @endif
-                        <p class="card-text">{{ $card['colour'] ?? 'Locomotive' }}</p>
-                        <form action="{{ route('game.pickTrainCard', ['lobbyId' => $lobbyId, 'userId' => $authPlayerId, 'wagonId' => $card['id_wagon']]) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-primary">Pick</button>
-                        </form>
+    <div class="container-fluid">
+        <h3>Train Cards to Draw</h3>
+        <div class="row d-flex flex-column">
+            @foreach($cardsToPick as $card)
+                <div class="col mb-2">
+                    <div class="card">
+                    <div class="card-body d-flex justify-content-center align-items-center">
+        @if(isset($card['image']))
+        <div class="md-2 text-center">
+            <img src="{{ asset($card['image']) }}" alt="{{ $card['colour'] }}" class="img-fluid mb-1" style="max-height: 85px;">
+        </div>
+        @endif
+        <div>
+            <form action="{{ route('game.pickTrainCard', ['lobbyId' => $lobbyId, 'userId' => $authPlayerId, 'wagonId' => $card['id_wagon']]) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary">Pick</button>
+            </form>
+        </div>
+    </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
-</div>
+
+<!-- <style>
+.col-md-2-5 {
+        flex: 0 0 calc(15.5% - 10px); /* Ajuster la largeur selon vos besoins */
+        max-width: calc(15.5% - 10px); /* Ajuster la largeur selon vos besoins */
+        padding-right: 5px;
+        padding-left: 5px; 
+        padding-bottom: 5px;
+    }
+</style> -->

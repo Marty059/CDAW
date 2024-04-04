@@ -66,6 +66,7 @@ Route::post('/game/pickdestinationcards/{lobbyId}/{userId}', [GameController::cl
 Route::post('/game/placetrainpath/{lobbyId}', [GameController::class,'placeTrainPath'])->name('game.placeTrainPath');
 Route::get('/game/stats/{lobbyId}', [GameController::class,'show'])->name('game.show');
 Route::post('/game/passTurn/{lobbyId}', [GameController::class,'passTurn'])->name('game.passTurn');
+Route::post('/game/endGame/{lobbyId}', [GameController::class,'endGame'])->name('game.endGame');
 Route::post('/getUsers', [AdminController::class, 'showUsers'])->name('getUsers');
 
 Route::get('/admin', [AdminController::class, 'showView'])->name('admin');

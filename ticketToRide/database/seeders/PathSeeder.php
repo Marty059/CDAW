@@ -35,7 +35,7 @@ class PathSeeder extends Seeder
             ['city_1' => 'New York', 'city_2' => 'Boston','length'=>2, 'colour' => 'Yellow'],   
             ['city_1' => 'New York', 'city_2' => 'Boston','length'=>2, 'colour' => 'Red'],    
             ['city_1' => 'New York', 'city_2' => 'Washington','length'=>2, 'colour' => 'Orange'],
-            ['city_1' => 'New York', 'city_2' => 'Wahsington','length'=>2, 'colour' => 'Black'], 
+            ['city_1' => 'New York', 'city_2' => 'Washington','length'=>2, 'colour' => 'Black'], 
             ['city_1' => 'Raleigh', 'city_2' => 'Washington','length'=>2, 'colour' => null],
             ['city_1' => 'Raleigh', 'city_2' => 'Washington','length'=>2, 'colour' => null],
             ['city_1' => 'Raleigh', 'city_2' => 'Atlanta','length'=>2, 'colour' => null],

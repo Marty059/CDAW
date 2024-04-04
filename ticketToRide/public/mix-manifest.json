@@ -4,5 +4,6 @@
     "/js/stats.js": "/js/stats.js",
     "/js/leaderboard.js": "/js/leaderboard.js",
     "/js/admin.js": "/js/admin.js",
+    "/js/lobby.js": "/js/lobby.js",
     "/css/app.css": "/css/app.css"
 }
