@@ -74,3 +74,7 @@ Route::post('/admin/ban-user/{id_user}', [AdminController::class, 'banUser'])->n
 //Route pour le leaderboard
 Route::get('/leaderboard', [LeaderboardController::class, 'showView'])->name('leaderboard');
 Route::post('/getLeaderboard', [LeaderboardController::class, 'getLeaderboard'])->name('getLeaderboard');
+
+Route::get('/test', function(){
+    return view('game2.cards-to-draw');
+})->name('test');
