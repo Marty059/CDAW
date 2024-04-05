@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Redis;
 $turn_id=Redis::get('lobby:'.$lobby->id_lobby.':current_turn');
 $available_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':available_train_paths'));
 
-
-//$layed_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':player:'.auth()->user()->id_user.':layed_train_paths'));
-
 @endphp
 
 @section('content')
@@ -21,10 +18,6 @@ $available_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':availa
         </div>
         <div class="col-md-2 "> 
             @if ($lobby->id_createur === auth()->user()->id_user)
-                    <!-- <form action="{{route('game.initialize', ['lobbyId' => $lobby->id_lobby])}}" method="POST">
-                        @csrf
-                        <button type="submit">Initialize Game</button>
-                    </form> -->
                     <form action="{{ route('game.endGame', ['lobbyId' => $lobby->id_lobby]) }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-danger mb-3">End Game</button>
@@ -70,7 +63,7 @@ $available_train_paths=json_decode(Redis::get('lobby:'.$lobby->id_lobby.':availa
                 @include('game.layed-train-paths', ['lobbyId' => $lobby->id_lobby])
             </div>    
         </div>
-        <div class="col-md-2"> <!-- This column takes 1/3 of the screen -->
+        <div class="col-md-2"> 
             @if($turn_id==auth()->user()->id_user)
                 <div class="turn">
                     @include('game.cards-to-draw', ['lobbyId' => $lobby->id_lobby])

@@ -24,10 +24,6 @@ Route::get('/', function(){
      return view('welcome');
  })->name('welcome');
 
- Route::get('post', [PostController::class, 'index']);
-
- Route::get('post2', [PostController::class, 'index_2']);
-
 Auth::routes();
 
 Route::get('/lobby', [LobbyController::class,'index'])->name('lobby');
@@ -58,6 +54,8 @@ Route::get('lobby/leave/{lobbyId}', [LobbyController::class, 'leave'])->name('lo
 
 //Route pour afficher les détails d'une partie
 Route::get('/game/{lobbyId}', [GameController::class,'showGameplay'])->name('game.showGameplay');
+
+//Route pour la page de jeu
 Route::post('/game/start/{lobbyId}', [GameController::class,'startGame'])->name('game.start');
 Route::post('/game/initialize/{lobbyId}', [GameController::class,'initializeGame'])->name('game.initialize');
 Route::post('/game/pickrandomtraincard/{lobbyId}/{userId}', [GameController::class,'pickRandomTrainCard'])->name('game.pickRandomTrainCard');
@@ -69,6 +67,7 @@ Route::post('/game/passTurn/{lobbyId}', [GameController::class,'passTurn'])->nam
 Route::post('/game/endGame/{lobbyId}', [GameController::class,'endGame'])->name('game.endGame');
 Route::post('/getUsers', [AdminController::class, 'showUsers'])->name('getUsers');
 
+//Route pour la page admin
 Route::get('/admin', [AdminController::class, 'showView'])->name('admin');
 Route::post('/admin/ban-user/{id_user}', [AdminController::class, 'banUser'])->name('admin.banUser');
 
@@ -78,14 +77,10 @@ Route::post('/getLeaderboard', [LeaderboardController::class, 'getLeaderboard'])
 
 
 //Routes tests
-Route::get('/test', function(){
-    return view('game2.cards-to-draw');
-})->name('test');
+// Route::get('/test', function(){
+//     return view('game2.cards-to-draw');
+// })->name('test');
 
-Route::get('/test2', function(){
-    return view('game2.player-cards');
-})->name('test2');
-
-Route::get('/test3', function(){
-    return view('game2.map');
-})->name('test3');
+// Route::get('/test2', function(){
+//     return view('game2.player-cards');
+// })->name('test2');
