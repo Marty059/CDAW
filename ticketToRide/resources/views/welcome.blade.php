@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="jumbotron text-center">
-                <h1>Welcome to Ticket To Ride Online!</h1>
+                <h1>Welcome to World of Train!</h1>
                 <p>Play the popular board game online and compete against a large community of players.</p>
             </div>
         </div>
@@ -17,7 +17,7 @@
     </div>
     <div class="row mt-5">
         <div class="col-md-12">
-            <h2>About Ticket To Ride Online</h2>
+            <h2>About World of Train</h2>
             <p>Experience the excitement of playing the popular board game Ticket To Ride online. Connect cities, build routes, and compete against a large community of players from around the world.</p>
             <p>Learn the rules of the game:</p>
             <ul>
@@ -42,7 +42,7 @@
     <div class="row mt-5">
         <div class="col-md-6">
             <h3>How to Play</h3>
-            <p>Learn how to play Ticket To Ride Online and start your journey to become a master strategist.</p>
+            <p>Learn how to play World of Train and start your journey to become a master strategist.</p>
             <a href="#" class="btn btn-primary">Learn More</a>
         </div>
         <div class="col-md-6">
