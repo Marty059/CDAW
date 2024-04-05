@@ -15,14 +15,14 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             User::create([
                 'username' => 'user' . $i,
                 'password' => bcrypt('password'),
                 'email' => 'user' . $i . '@example.com',
                 'country' => 'Country ' . $i,
-                'is_admin' => false, 
-                'is_banned' => false, 
+                'is_admin' => ($i == 1 || $i == 2) ? true : false,
+                'is_banned' => ($i == 3 || $i == 4) ? true : false,
                 'remember_token' => '',
             ]);
         }

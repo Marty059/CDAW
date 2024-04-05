@@ -33,6 +33,6 @@ $(document).ready(function() {
          // Remplacez 0 par l'index de la colonne que vous souhaitez ordonner comme un nombre
     ],
     lengthMenu: [[10, 25, 50, -1], [10, 25, 50,  "All"]], // Ajouter l'option "Tous"
-        pageLength: 10 
+        pageLength: 25 
     });
 });

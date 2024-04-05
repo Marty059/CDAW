@@ -10,6 +10,9 @@ $testWagonCardIds = [1, 2, 3, 74, 73];
 $wagonColorImages = [
     'Black' => 'img/Black.png', 
     'White' => 'img/White.png',
+    'Red' => 'img/Red.png',
+    'Blue' => 'img/Blue.png',
+    'Green' => 'img/Green.png',
 ];
 
 // Simulation des données provenant de Redis

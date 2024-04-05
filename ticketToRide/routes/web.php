@@ -76,6 +76,8 @@ Route::post('/admin/ban-user/{id_user}', [AdminController::class, 'banUser'])->n
 Route::get('/leaderboard', [LeaderboardController::class, 'showView'])->name('leaderboard');
 Route::post('/getLeaderboard', [LeaderboardController::class, 'getLeaderboard'])->name('getLeaderboard');
 
+
+//Routes tests
 Route::get('/test', function(){
     return view('game2.cards-to-draw');
 })->name('test');
@@ -83,3 +85,7 @@ Route::get('/test', function(){
 Route::get('/test2', function(){
     return view('game2.player-cards');
 })->name('test2');
+
+Route::get('/test3', function(){
+    return view('game2.map');
+})->name('test3');

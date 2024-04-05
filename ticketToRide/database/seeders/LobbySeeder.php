@@ -18,6 +18,19 @@ class LobbySeeder extends Seeder
     {
         $users = User::all();
 
+        for ($i = 1; $i <= 3; $i++) {
+            $lobby = new Lobby();
+            $lobby->name = 'Lobby ' . $i; 
+            $lobby->max_players = 5; 
+            $lobby->is_private = false; 
+            $lobby->password = bcrypt(''); 
+            $lobby->has_started = false; 
+            $lobby->has_ended = false; 
+            $lobby->creation_date = Carbon::now(); 
+            $lobby->id_createur = $users->random()->id_user; 
+            $lobby->save();
+        }
+
         foreach ($users as $user) {
             $lobby = new Lobby();
             $lobby->name = 'Lobby de ' . $user->username; 
@@ -25,12 +38,9 @@ class LobbySeeder extends Seeder
             $lobby->is_private = false; 
             $lobby->password = bcrypt(''); 
             $lobby->has_started = false; 
-            $lobby->has_ended = true; 
+            $lobby->has_ended = false; 
             $lobby->creation_date = Carbon::now(); 
             $lobby->id_createur = $user->id_user; 
-
-            $lobby->start_date = Carbon::now()->addDays(rand(1, 10))->addHours(rand(1,3))->addMinutes(rand(10,35)); 
-            $lobby->duration = rand(20, 80); 
             $lobby->save();
         }
 
@@ -46,5 +56,22 @@ class LobbySeeder extends Seeder
         $privateLobby->start_date = Carbon::now()->addDays(1); 
         $privateLobby->duration = 2; 
         $privateLobby->save();
+    
+
+        for ($i = 1; $i <= 20; $i++) {
+            $lobby = new Lobby();
+            $lobby->name = 'Lobby ' . $i; 
+            $lobby->max_players = 5; 
+            $lobby->is_private = false; 
+            $lobby->password = bcrypt(''); 
+            $lobby->has_started = true; 
+            $lobby->has_ended = true; 
+            $lobby->creation_date = Carbon::now(); 
+            $lobby->id_createur = $users->random()->id_user; 
+            $lobby->start_date = Carbon::now()->addDays(rand(1, 10))->addHours(rand(1,3))->addMinutes(rand(10,35)); 
+            $lobby->duration = rand(20, 80); 
+            $lobby->save();
+        }
+
     }
 }

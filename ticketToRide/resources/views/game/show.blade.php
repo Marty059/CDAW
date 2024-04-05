@@ -6,12 +6,12 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="mb-0">Lobby Information</h1>
+                    <h1 class="mb-0">Game Information</h1>
                 </div>
                 <div class="card-body">
                     <p><strong>Lobby Name:</strong> {{ $lobby->name }}</p>
-                    <p><strong>Maximum Number of Players:</strong> {{ $lobby->max_players }}</p>
-                    <p><strong>Creation Date:</strong> {{ $lobby->creation_date }}</p>
+                    <p><strong>Number of Players:</strong> {{ count($players) }}</p>
+                    <p><strong>Start of the game:</strong> {{ $lobby->creation_date->format('F j, Y') }}</p>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                             <tbody>
                                 @foreach($players as $player)
                                 <tr>
-                                    <td>{{ $player->username }}</td>
+                                    <td><a href="{{ route('profile', ['userId' => $player->id_user]) }}">{{ $player->username }}</a></td>
                                     <td>{{ $player->classement }}</td>
                                     <td>{{ $player->score }}</td>
                                 </tr>
