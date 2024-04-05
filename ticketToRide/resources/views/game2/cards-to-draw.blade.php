@@ -8,8 +8,8 @@ $testWagonCardIds = [1, 2, 3, 74, 73];
 
 // Tableau de correspondance entre la couleur et le chemin de l'image
 $wagonColorImages = [
-    'Black' => 'img/Black.jpeg', 
-    'White' => 'img/White.jpeg',
+    'Black' => 'img/Black.png', 
+    'White' => 'img/White.png',
 ];
 
 // Simulation des données provenant de Redis

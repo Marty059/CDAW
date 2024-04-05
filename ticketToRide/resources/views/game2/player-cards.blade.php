@@ -87,14 +87,14 @@ $wagonCards = $wagonCardsTestData;
 $destinationCards = $destinationCardsTestData;
 
 $wagonColorImages = [
-    'Black' => 'img/Black.jpeg', 
-    'White' => 'img/White.jpeg',
-    'Red' => 'img/Red.jpeg',
-    'Blue' => 'img/Blue.jpeg',
-    'Green' => 'img/Green.jpeg',
-    'Yellow' => 'img/Yellow.jpeg',
-    'Orange' => 'img/Orange.jpeg',
-    'Pink' => 'img/Pink.jpeg',
+    'Black' => 'img/Black.png', 
+    'White' => 'img/White.png',
+    'Red' => 'img/Red.png',
+    'Blue' => 'img/Blue.png',
+    'Green' => 'img/Green.png',
+    'Yellow' => 'img/Yellow.png',
+    'Orange' => 'img/Orange.png',
+    'Pink' => 'img/Pink.png',
     null => 'img/Locomotive.png'
 ];
 
