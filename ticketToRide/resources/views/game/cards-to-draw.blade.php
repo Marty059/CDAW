@@ -17,16 +17,12 @@ $wagonColorImages = [
     null => 'img/Locomotive.png'
 ];
 
-// Initialize $cardsToPick as an empty array if $cardsToDraw is null
 $cardsToPick = [];
 if ($cardsToDraw) {
-    // Limit to 5 cards
     $cardsToPick = array_slice($cardsToDraw, 0, 5);
 
-    // Map each card ID to its details
     $cardsToPick = array_map(function ($card) use ($wagonColorImages) {
         $wagon = Wagon::find($card);
-        // Check if wagon with the given ID exists
         if ($wagon && isset($wagonColorImages[$wagon->colour])) {
             return [
                 'id_wagon' => $card,
@@ -34,11 +30,9 @@ if ($cardsToDraw) {
                 'image' => $wagonColorImages[$wagon->colour]
             ];
         } else {
-            // Handle case where wagon with the given ID is not found
             return null;
         }
     }, $cardsToPick);
-    // Filter out null values (wagons not found)
     $cardsToPick = array_filter($cardsToPick);
 }
 
@@ -69,12 +63,3 @@ if ($cardsToDraw) {
         </div>
     </div>
 
-<!-- <style>
-.col-md-2-5 {
-        flex: 0 0 calc(15.5% - 10px); /* Ajuster la largeur selon vos besoins */
-        max-width: calc(15.5% - 10px); /* Ajuster la largeur selon vos besoins */
-        padding-right: 5px;
-        padding-left: 5px; 
-        padding-bottom: 5px;
-    }
-</style> -->

@@ -1,25 +1,22 @@
 @php
 use Illuminate\Support\Facades\Redis;
 
-// Retrieve the authenticated player's ID
 $authPlayerId = auth()->user()->id_user;
 
-// Retrieve the wagon cards data from Redis for the authenticated player
+// Récupérer les données des cartes wagon depuis Redis pour le joueur authentifié
 $wagonCardsData = Redis::get('lobby:'.$lobbyId.':player:'.$authPlayerId.':wagon_cards');
 $wagonCards = json_decode($wagonCardsData, true);
 
-// Check if wagon cards data exists and is valid
 if ($wagonCards === null) {
-    $wagonCards = []; // Set it to an empty array if it's null
+    $wagonCards = []; 
 }
 
-// Retrieve the destination cards data from Redis for the authenticated player
+// Récupérer les données des cartes destination depuis Redis pour le joueur authentifié
 $destinationCardsData = Redis::get('lobby:'.$lobbyId.':player:'.$authPlayerId.':destination_cards');
 $destinationCards = json_decode($destinationCardsData, true);
 
-// Check if destination cards data exists and is valid
 if ($destinationCards === null) {
-    $destinationCards = []; // Set it to an empty array if it's null
+    $destinationCards = []; 
 }
 
 $wagonColorImages = [
@@ -75,13 +72,12 @@ $groupedWagonCards = collect($wagonCards)->groupBy('colour')->map(function($grou
         display: inline-block;
         width: auto;
         max-width: 100%;
-        margin-bottom: 0; /* Remove bottom margin */
+        margin-bottom: 0; 
     }
 
-    /* Définition d'une nouvelle classe pour une colonne personnalisée */
     .col-md-2-5 {
-        flex: 0 0 calc(21.5% - 10px); /* Ajuster la largeur selon vos besoins */
-        max-width: calc(21.5% - 10px); /* Ajuster la largeur selon vos besoins */
+        flex: 0 0 calc(21.5% - 10px); 
+        max-width: calc(21.5% - 10px); 
         padding-right: 5px;
         padding-left: 5px; 
         padding-bottom: 5px;
