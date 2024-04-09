@@ -58,6 +58,12 @@ laravel-echo-server start
 php artisan serve
 ```
 
+### Vidéos
+
+https://partage.imt.fr/index.php/s/jnySA5M7qRjw6D8
+
+https://partage.imt.fr/index.php/s/ArrpmJfsHyTkkb3
+
 
 ## Contributeurs
 - Maxime GRENET
